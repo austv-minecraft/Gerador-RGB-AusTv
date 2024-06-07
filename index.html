@@ -57,7 +57,7 @@
                   <label for="output-format">Tipo de comando</label>
                   <select id="output-format"
                           class="form-control"
-                          onchange="updateOutputText(event);">
+                          onchange="updateOutputText(event); ajustarPresetsBaseadoNoTipo(value);">
                     <option value='0'>Padrão</option>
                     <option value='1'>Nickname</option>
                     <option value='2'>Tag clã</option>
