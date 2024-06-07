@@ -263,7 +263,12 @@ function getColors() {
 }
 
 function updateOutputText(event) {
+  
   let format = formats[document.getElementById('output-format').value];
+
+  console.log("Evento executado:" + event);
+  console.log("Value do formato:" + format);
+
   if (format.outputPrefix) {
     nickName.value = nickName.value.replace(/ /g, '');
     if (nickName.value) {
@@ -372,3 +377,43 @@ toggleColors(2);
 updateOutputText();
 document.getElementById('darkmode').checked = true
 darkMode()
+
+function ajustarPresetsBaseadoNoTipo(tipoPreset) {
+  limparConfiguracoes();
+  const boldCheckbox = document.getElementById('bold');
+  const italicCheckbox = document.getElementById('italics');
+  const underlineCheckbox = document.getElementById('underline');
+
+  switch (tipoPreset) {
+    case "1": // Nickname jogador, remover presets
+      boldCheckbox.disabled = true;
+      boldCheckbox.checked = false;
+      italicCheckbox.disabled = true;
+      italicCheckbox.checked = false;
+      underlineCheckbox.disabled = true;
+      underlineCheckbox.checked = false;
+      updateOutputText();
+      break;
+    case "2": // Tag de clã, selecionar BOLD
+      boldCheckbox.checked = true;
+      underlineCheckbox.disabled = true;
+      underlineCheckbox.checked = false;
+      updateOutputText();
+      break;
+    default:
+      break;
+  }
+}
+
+function limparConfiguracoes() {
+  const boldCheckbox = document.getElementById('bold');
+  const italicCheckbox = document.getElementById('italics');
+  const underlineCheckbox = document.getElementById('underline');
+
+  boldCheckbox.disabled = false;
+  boldCheckbox.checked = false;
+  italicCheckbox.disabled = false;
+  italicCheckbox.checked = false;
+  underlineCheckbox.disabled = false;
+  underlineCheckbox.checked = false;
+}
