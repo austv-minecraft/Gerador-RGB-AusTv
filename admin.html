@@ -1,0 +1,122 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./styleadmin.css">
+    <link rel="shortcut icon" href="assets/images/logo.png" type="image/x-icon">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript"  src="/assets/js/js.cookie.js"></script>
+    <title>Cores AusTv</title>
+  </head>
+
+  <body id="bg" class="container" style="font-family: Quicksand;">
+  
+    <div id="hexColorTemplate" style="display:none;">
+      <div class="row">
+        <label for="color-$NUM">Cor HEX #$NUM</label>
+        <input class="form-control col-md-1 hexColor" id="color-$NUM" style="border-radius: 10px;" value="$VAL"
+               data-jscolor="{preset:'small dark', position:'right'}" oninput="javascript: updateOutputText(event)"
+               onchange="javascript: updateOutputText(event); Cookies.set(`#${$NUM}`, document.getElementById('color-$NUM').value, { expires: 7, path: '' })"/>
+      </div>
+    </div>
+    
+    <div id="content">
+      <h1 id="title" style="text-align: center">Criador de Texto RGB da AusTv!</h1>
+      <p id="graylabel1" class="gray" style="padding-bottom: 10px; text-align: center">Recomendamos o uso do navegador Google Chrome.</p>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-2" style="padding-left: 0;">
+            <div id="hexColors" class="container-fluid">
+              <!-- Will be populated in JavaScript -->
+            </div>
+          </div>
+          <div class="col-md-10" style="padding-right: 0;">
+            <div class="container-fluid">
+              <div class="row">
+                <div id="output">
+                  <label id="label4" for="outputText">CrazyCrates</label>
+                  <label id="graylabel2" class="gray" for="outputText" style="font-weight: normal;">Copie e cole este texto RGB no DisplayName.</label>
+                  <pre id="outputText" style="border-radius: 10px; white-space: pre-wrap; height: 70px; margin-right: 15px; font-family: MinecraftRegular; margin-bottom: 5px;"
+                       onclick="copyTextToClipboard(this.textContent);"></pre>
+                  <label id="label4" for="outputText">Aegive</label>
+                  <label id="graylabel2" class="gray" for="outputText" style="font-weight: normal;">Copie e cole este texto RGB no comando de Aegive.</label>
+                  <pre id="outputTextDois" style="border-radius: 10px; white-space: pre-wrap; height: 70px; margin-right: 15px; font-family: MinecraftRegular; margin-bottom: 5px;"></pre>
+                  <label id="label4" for="outputText">Broadcast</label>
+                  <label id="graylabel2" class="gray" for="outputText" style="font-weight: normal;">Copie e cole este texto RGB no comando /broadcast.</label>
+                  <pre id="outputTextTres" style="border-radius: 10px; white-space: pre-wrap; height: 70px; margin-right: 15px; font-family: MinecraftRegular; margin-bottom: 5px;"></pre>
+                  <p id="error">O texto possui mais de 256 caracteres e pode não caber no chat do jogo.</p>
+                </div>
+              </div>
+              <div class="row">
+                <div id="coloredNick" class="minecraft"></div>
+              </div>
+              <div class="row">
+                <div class="col-md-3" style="padding-left: 0;">
+                  <label for="nickname">Mensagem</label>
+                  <input class="form-control" id="nickname" type="text" maxlength="100" placeholder="Seu texto"
+                         value="SeuTexto" oninput="javascript: updateOutputText(event);"
+                         onchange="javascript: updateOutputText(event)">
+                </div>
+              </div>
+              <div class="row" style="margin-top: 10px;">
+                <div class="col-md-3" style="padding-left: 0;">
+                  <label for="output-format">Tipo de comando</label>
+                  <select id="output-format"
+                          class="form-control"
+                          onchange="updateOutputText(event); ajustarPresetsBaseadoNoTipo(value);">
+                    <option value='0'>Padrão</option>
+                    <option value='1'>Nickname</option>
+                    <option value='2'>Tag clã</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row" style="margin-top: 10px;">
+                <div class="col-md-3" style="padding-left: 0;">
+                  <label for="color-preset">Predefinição de cores</label>
+                  <select id="color-preset"
+                          class="form-control"
+                          onchange="preset(this.value); updateOutputText(event); ">
+                    <option value='0'>Nenhum</option>
+                    <option value='1'>Arco-íris</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row" style="margin-top: 10px;">
+                <label for="numOfColors">Número de Cores</label>
+                <input class="form-control"
+                       style="width: 75px;"
+                       value="2" id="numOfColors" type="number" min="2" max="10"
+                       onchange="updateOutputText(event); toggleColors(this.value);"
+                       oninput="updateOutputText(event); toggleColors(this.value);"/>
+              </div>
+              <div class="row" style="margin-top: 10px;">
+                <div id="dbold">
+                  <input type="checkbox" id="bold" onclick="updateOutputText(event);"/>
+                  <label for="bold">Negrito</label>
+                </div>
+                <div id="ditalics">
+                  <input type="checkbox" id="italics" onclick="updateOutputText(event);"/>
+                  <label for="italics">Itálico</label>
+                </div>
+                <div id="dunderline">
+                  <input type="checkbox" id="underline" onclick="updateOutputText(event);"/>
+                  <label for="underline">Sublinhado</label>
+                </div>
+                <div id="dstrike" hidden>
+                  <input type="checkbox" id="strike" onclick="updateOutputText(event);"/>
+                  <label for="strike">Tachado</label>
+                </div>
+                <div id="appearance">
+                  <input type="checkbox" id="darkmode" onclick="darkMode();"></input>
+                  <label for="darkmode" style="margin-bottom: 0px;margin-top: 0px;">Modo Escuro</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="jscolor.js"></script>
+    <script src="scriptadmin.js"></script>
+    </body>
+</html>
