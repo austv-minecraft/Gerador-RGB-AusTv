@@ -104,8 +104,6 @@ function getRandomHexColor() {
      return Math.floor(Math.random()*16777215).toString(16).toUpperCase();
 }
 
-/* 
-Copies contents to clipboard
 function copyTextToClipboard(text) {
   let textArea = document.createElement('textarea');
   textArea.value = text;
@@ -115,10 +113,10 @@ function copyTextToClipboard(text) {
   textArea.select();
 
   document.execCommand('copy');
-  alert('Copied output!');
   document.body.removeChild(textArea);
+
+  mostrarTextoCopiado();
 }
-*/
 
 function showError(show) {
   if (show) {
@@ -416,4 +414,17 @@ function limparConfiguracoes() {
   italicCheckbox.checked = false;
   underlineCheckbox.disabled = false;
   underlineCheckbox.checked = false;
+}
+
+function mostrarTextoCopiado() {
+  var elemento = document.getElementById('infoCopiado');
+  elemento.style.display = 'block';
+  
+  setTimeout(function() {
+    elemento.style.display = 'none';
+  }, 3000);
+
+  window.scrollTo({
+    top: 0
+  });
 }
