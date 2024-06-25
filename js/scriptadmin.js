@@ -325,6 +325,7 @@ function updateOutputText(event) {
     hexOutputDois = hexOutputDois.replace('$f', formatCodesDois);
     hexOutputDois = hexOutputDois.replace('$c', char);
     outputDois += hexOutputDois;
+    outputDois = outputDois.replace(' ', '_');
 
     // Processamento similar para outputDois
     let formatCodesTres = '';
