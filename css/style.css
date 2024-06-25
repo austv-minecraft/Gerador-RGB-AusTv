@@ -146,3 +146,7 @@ footer{
 body{
   margin: auto;
 }
+.success {
+  display: none;
+  color:#51fc2f; 
+}
