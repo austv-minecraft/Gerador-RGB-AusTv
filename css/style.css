@@ -1,3 +1,21 @@
+.bordaSolida {
+  border: 0px solid blue;
+  margin-top: 5px;
+}
+
+.mesmaLinha {
+  float: inline-end;
+  margin: -2px;
+}
+
+.iconeSetas {
+  cursor: pointer;
+}
+
+.iconeSetasBloqueado {
+  /* Não usada */
+  cursor: not-allowed;
+}
 .color {
   width: 100%;
 }

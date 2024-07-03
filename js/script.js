@@ -264,9 +264,6 @@ function updateOutputText(event) {
   
   let format = formats[document.getElementById('output-format').value];
 
-  console.log("Evento executado:" + event);
-  console.log("Value do formato:" + format);
-
   if (format.outputPrefix) {
     nickName.value = nickName.value.replace(/ /g, '');
     if (nickName.value) {
@@ -428,3 +425,74 @@ function mostrarTextoCopiado() {
     top: 0
   });
 }
+
+function descerCor(n) {
+  var totalCoresRgb = coresRgbExistentes();
+
+  // Se é a última cor, não tem como descer
+  if (n !== totalCoresRgb) {
+      // Resgatar os dois elementos que serão trocados
+      const corInputAtual = document.getElementById("color-" + n);
+      const corInputAbaixo = document.getElementById("color-" + (parseInt(n) + 1));
+      const corLabel = corInputAtual.value;
+      const corLabelAbaixo = corInputAbaixo.value;
+
+      // Fazer a troca
+      corInputAtual.value = corLabelAbaixo;
+      corInputAbaixo.value = corLabel;
+
+      // Atualizar a visualização das cores
+      corInputAtual.jscolor.fromString(corLabelAbaixo);
+      corInputAbaixo.jscolor.fromString(corLabel);
+
+      updateOutputText();
+      ponteirosBloqueados();
+  }
+}
+
+function subirCor(n) {
+  // Se é a primeira cor, não tem como subir
+  if (n !== 1) {
+      // Resgatar os dois elementos que serão trocados
+      const corInputAtual = document.getElementById("color-" + n);
+      const corInputAcima = document.getElementById("color-" + (parseInt(n) - 1));
+      const corLabel = corInputAtual.value;
+      const corLabelAcima = corInputAcima.value;
+
+      // Fazer a troca
+      corInputAtual.value = corLabelAcima;
+      corInputAcima.value = corLabel;
+
+      // Atualizar a visualização das cores
+      corInputAtual.jscolor.fromString(corLabelAcima);
+      corInputAcima.jscolor.fromString(corLabel);
+
+      updateOutputText();
+  }
+}
+
+function coresRgbExistentes() {
+  var elementoChecado, totalDeElementos;
+
+  for (var i = 0; i < 20; i++) {
+    elementoChecado = document.getElementById("color-" + i);
+
+    if (elementoChecado) {
+      totalDeElementos = i;
+    }
+  }
+
+  return totalDeElementos;
+}
+
+// Função que deixa o ponteiro do mouse bloqueado para as setas da extremidade
+function ponteirosBloqueados() {
+  var totalCoresRgb = coresRgbExistentes();
+
+  document.getElementById('setaCima#1').classList.add('iconeSetasBloqueado');
+  document.getElementById('setaBaixo#' + totalCoresRgb).classList.add('iconeSetasBloqueado');
+
+  // ponteirosBloqueados();
+  // Problema: ao adicionar uma nova cor, a antiga ainda fica bloqueada
+}
+

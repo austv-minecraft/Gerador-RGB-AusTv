@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="shortcut icon" href="assets/images/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/assets/js/js.cookie.js"></script>
@@ -12,8 +13,13 @@
   <body id="bg" class="container" style="font-family: Quicksand;">
   
     <div id="hexColorTemplate" style="display:none;">
-      <div class="row">
+      <div class="row bordaSolida">
         <label for="color-$NUM">Cor HEX #$NUM</label>
+        <div class="bordaSolida mesmaLinha">
+          <i class="material-icons iconeSetas" id="setaCima#$NUM" onclick="subirCor($NUM);">keyboard_arrow_up</i>
+          <i class="material-icons iconeSetas" id="setaBaixo#$NUM" onclick="descerCor($NUM);">keyboard_arrow_down</i>
+        </div>
+        
         <input class="form-control col-md-1 hexColor" id="color-$NUM" style="border-radius: 10px;" value="$VAL"
                data-jscolor="{preset:'small dark', position:'right'}" oninput="javascript: updateOutputText(event)"
                onchange="javascript: updateOutputText(event); Cookies.set(`#${$NUM}`, document.getElementById('color-$NUM').value, { expires: 7, path: '' })"/>
