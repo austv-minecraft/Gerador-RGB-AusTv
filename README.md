@@ -1,3 +1,3 @@
-<footer>
-    <p>Criado por <a href="https://github.com/Oli-idk">Oli</a> e <a href="https://github.com/saboooor">Saboor</a> e adaptado por <a href="https://github.com/leogianfagna">WaKaliTe</a>.</p>
-</footer>
+Gerador RGB multi função, adaptado para o servidor de Minecraft **AusTv**, criado por [WaKaliTe](https://github.com/leogianfagna).
+
+*Forked from [Oli](https://github.com/Oli-idk) e [Saboor](https://github.com/saboooor).*

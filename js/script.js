@@ -4,7 +4,12 @@ const coloredNick = document.getElementById('coloredNick');
 const savedColors = ['084CFB', 'ADF3FD', getRandomHexColor(), getRandomHexColor(), getRandomHexColor(), getRandomHexColor(), getRandomHexColor(), getRandomHexColor(), getRandomHexColor(), getRandomHexColor()];
 const presets = {
   1: {
-    colors: ["FF0000", "FF7F00", "FFFF00", "00FF00", "0000FF", "4B0082", "9400D3"],
+    colors: ["FF0404", "FF540B", "FFF506", "44FF15", "20FFE4", "6D23E4"],
+    totalColors: 6
+  },
+  2: {
+    colors: ["3494E6", "EE70AF"],
+    totalColors: 2
   }
 }
 const formats = {
@@ -263,13 +268,21 @@ function getColors() {
 function updateOutputText(event) {
   
   let format = formats[document.getElementById('output-format').value];
+  let tipoDeComando = document.getElementById('output-format').value;
+  console.log(tipoDeComando);
 
   if (format.outputPrefix) {
     nickName.value = nickName.value.replace(/ /g, '');
+    
     if (nickName.value) {
-      let letters = /^[0-9a-zA-Z_]+$/;
+      let letters = /^[0-9a-zA-Z_*]+$/;
+
+      // Se for TAG de clã
+      if (tipoDeComando === "2") {
+        letters = /^[0-9a-zA-Z]+$/;
+      }
+
       if (!nickName.value.match(letters)) nickName.value = nickName.value.replace(event.data, '');
-      if (!nickName.value.match(letters)) nickName.value = 'austv.net';
     }
   }
 
@@ -357,7 +370,8 @@ function displayColoredName(nickName, colors) {
 }
 
 function preset(n) {
-  const colors = presets[n].colors
+  const colors = presets[n].colors;
+  const numDeCores = presets[n].totalColors;
   const container = $('#hexColors');
   container.empty();
     // Need to add some colors
@@ -367,6 +381,9 @@ function preset(n) {
       container.append(html);
     }
     jscolor.install(); // Refresh all jscolor elements
+
+  // Atualizar total de cores que tem na paleta
+  document.getElementById('numOfColors').value = numDeCores;
 }
 toggleColors(2);
 updateOutputText();
@@ -411,6 +428,7 @@ function limparConfiguracoes() {
   italicCheckbox.checked = false;
   underlineCheckbox.disabled = false;
   underlineCheckbox.checked = false;
+  updateOutputText();
 }
 
 function mostrarTextoCopiado() {
