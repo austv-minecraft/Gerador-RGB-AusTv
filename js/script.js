@@ -428,47 +428,55 @@ function mostrarTextoCopiado() {
 
 function descerCor(n) {
   var totalCoresRgb = coresRgbExistentes();
+  var corInputAbaixo;
 
-  // Se é a última cor, não tem como descer
-  if (n !== totalCoresRgb) {
-      // Resgatar os dois elementos que serão trocados
-      const corInputAtual = document.getElementById("color-" + n);
-      const corInputAbaixo = document.getElementById("color-" + (parseInt(n) + 1));
-      const corLabel = corInputAtual.value;
-      const corLabelAbaixo = corInputAbaixo.value;
-
-      // Fazer a troca
-      corInputAtual.value = corLabelAbaixo;
-      corInputAbaixo.value = corLabel;
-
-      // Atualizar a visualização das cores
-      corInputAtual.jscolor.fromString(corLabelAbaixo);
-      corInputAbaixo.jscolor.fromString(corLabel);
-
-      updateOutputText();
-      ponteirosBloqueados();
+  // Se é o último elemento, troca com o de cima
+  if (n === totalCoresRgb) {
+    corInputAbaixo = document.getElementById("color-1");
+  } else {
+    corInputAbaixo = document.getElementById("color-" + (parseInt(n) + 1));
   }
+
+  // Resgatar os dois elementos que serão trocados
+  const corInputAtual = document.getElementById("color-" + n);
+  const corLabel = corInputAtual.value;
+  const corLabelAbaixo = corInputAbaixo.value;
+
+  // Fazer a troca
+  corInputAtual.value = corLabelAbaixo;
+  corInputAbaixo.value = corLabel;
+
+  // Atualizar a visualização das cores
+  corInputAtual.jscolor.fromString(corLabelAbaixo);
+  corInputAbaixo.jscolor.fromString(corLabel);
+
+  updateOutputText();
 }
 
 function subirCor(n) {
-  // Se é a primeira cor, não tem como subir
-  if (n !== 1) {
-      // Resgatar os dois elementos que serão trocados
-      const corInputAtual = document.getElementById("color-" + n);
-      const corInputAcima = document.getElementById("color-" + (parseInt(n) - 1));
-      const corLabel = corInputAtual.value;
-      const corLabelAcima = corInputAcima.value;
+  var corInputAcima;
 
-      // Fazer a troca
-      corInputAtual.value = corLabelAcima;
-      corInputAcima.value = corLabel;
-
-      // Atualizar a visualização das cores
-      corInputAtual.jscolor.fromString(corLabelAcima);
-      corInputAcima.jscolor.fromString(corLabel);
-
-      updateOutputText();
+  // Se é o primeiro elemento, vai trocar com o último
+  if (n === 1) {
+    const totalCoresRgb = coresRgbExistentes();
+    corInputAcima = document.getElementById("color-" + totalCoresRgb);
+  } else {
+    corInputAcima = document.getElementById("color-" + (parseInt(n) - 1));
   }
+
+  const corInputAtual = document.getElementById("color-" + n);
+  const corLabel = corInputAtual.value;
+  const corLabelAcima = corInputAcima.value;
+
+  // Fazer a troca
+  corInputAtual.value = corLabelAcima;
+  corInputAcima.value = corLabel;
+
+  // Atualizar a visualização das cores
+  corInputAtual.jscolor.fromString(corLabelAcima);
+  corInputAcima.jscolor.fromString(corLabel);
+
+  updateOutputText();
 }
 
 function coresRgbExistentes() {
@@ -483,16 +491,5 @@ function coresRgbExistentes() {
   }
 
   return totalDeElementos;
-}
-
-// Função que deixa o ponteiro do mouse bloqueado para as setas da extremidade
-function ponteirosBloqueados() {
-  var totalCoresRgb = coresRgbExistentes();
-
-  document.getElementById('setaCima#1').classList.add('iconeSetasBloqueado');
-  document.getElementById('setaBaixo#' + totalCoresRgb).classList.add('iconeSetasBloqueado');
-
-  // ponteirosBloqueados();
-  // Problema: ao adicionar uma nova cor, a antiga ainda fica bloqueada
 }
 
