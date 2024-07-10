@@ -69,14 +69,6 @@ const formats = {
   },
 };
 
-/*
-Função removida para sempre manter em dark e não dar problema na criação de novas páginas que não contém alguns elementos.
-Adicionei as classes manualmente. Se um dia precisar reverter, é o commit 18 (10/7/2024)
-
-Adicionar essas chamadas fora, para executar padrão
-document.getElementById('darkmode').checked = true
-darkMode()
-
 function darkMode() {
   if (document.getElementById('darkmode').checked == true) {
     document.body.classList.add('dark');
@@ -111,7 +103,6 @@ function darkMode() {
     })
   }
 }
-*/ 
 
 /* Get a random HEX color */
 function getRandomHexColor() {
@@ -294,9 +285,9 @@ function updateOutputText(event) {
     }
   }
 
-  let newNick = nickName.value
+  let newNick = nickName.value;
   if (!newNick) {
-    newNick = 'Digite algo!'
+    newNick = 'Digite sua tag!'
   }
 
   const bold = document.getElementById('bold').checked;
@@ -308,6 +299,7 @@ function updateOutputText(event) {
   let gradient = new Gradient(getColors(), newNick.replace(/ /g, '').length);
   let charColors = [];
   let output = format.outputPrefix;
+  
   for (let i = 0; i < newNick.length; i++) {
     let char = newNick.charAt(i);
     if (char == ' ') {
@@ -395,6 +387,8 @@ function preset(n) {
 }
 toggleColors(2);
 updateOutputText();
+document.getElementById('darkmode').checked = true
+darkMode()
 
 function ajustarPresetsBaseadoNoTipo(tipoPreset) {
   limparConfiguracoes();
