@@ -69,6 +69,14 @@ const formats = {
   },
 };
 
+/*
+Função removida para sempre manter em dark e não dar problema na criação de novas páginas que não contém alguns elementos.
+Adicionei as classes manualmente. Se um dia precisar reverter, é o commit 18 (10/7/2024)
+
+Adicionar essas chamadas fora, para executar padrão
+document.getElementById('darkmode').checked = true
+darkMode()
+
 function darkMode() {
   if (document.getElementById('darkmode').checked == true) {
     document.body.classList.add('dark');
@@ -103,6 +111,7 @@ function darkMode() {
     })
   }
 }
+*/ 
 
 /* Get a random HEX color */
 function getRandomHexColor() {
@@ -269,7 +278,6 @@ function updateOutputText(event) {
   
   let format = formats[document.getElementById('output-format').value];
   let tipoDeComando = document.getElementById('output-format').value;
-  console.log(tipoDeComando);
 
   if (format.outputPrefix) {
     nickName.value = nickName.value.replace(/ /g, '');
@@ -387,8 +395,6 @@ function preset(n) {
 }
 toggleColors(2);
 updateOutputText();
-document.getElementById('darkmode').checked = true
-darkMode()
 
 function ajustarPresetsBaseadoNoTipo(tipoPreset) {
   limparConfiguracoes();
