@@ -52,17 +52,33 @@
                 <div id="output">
 
                   <!-- Quadro do código rgb principal -->
-                  <label id="labelRgbResult" for="outputText">Texto RGB</label>
-                  <label id="graylabelRgbResult" class="gray" for="outputText" style="font-weight: normal;">Copie e cole este texto RGB no chat!</label>
-                  <pre id="outputText"
-                       style="border-radius: 10px; white-space: pre-wrap; height: 70px; margin-right: 15px; font-family: MinecraftRegular; margin-bottom: 5px;"
-                       onclick="copyTextToClipboard(this.textContent);"></pre>
+                  <div id="quadroTextoRgbGerado">
+                    <label id="labelRgbResult" for="outputText">Texto RGB</label>
+                    <label id="graylabelRgbResult" class="gray" for="outputText" style="font-weight: normal;">Copie e cole este texto RGB no chat!</label>
+                    <pre id="outputText"
+                         style="border-radius: 10px; white-space: pre-wrap; height: 70px; margin-right: 15px; font-family: MinecraftRegular; margin-bottom: 5px;"
+                         onclick="copyTextToClipboard(this.textContent);"></pre>
+                  </div>
 
                   <!-- Quadro com o nome da tag -->
                   <div id="quadroNomeDaTag" style="display: none;"> <!-- Previamente escondido -->
                     <label id="labelTagName" for="outputText">Identificador</label>
-                    <label id="graylabelTagName" class="gray" for="outputText" style="font-weight: normal;">Copie e cole este texto em "Nome da tag"</label>
+                    <label id="graylabelTagName" class="gray" for="outputText" style="font-weight: normal;">Copie e cole este texto em 'Nome da tag'</label>
                     <pre id="outputTextTag" class="inputPresets" onclick="copyTextToClipboard(this.textContent);"></pre>
+                  </div>
+
+                  <!-- Quadro com a cor #1 para tag animada -->
+                  <div id="quadroCor1" style="display: none;"> <!-- Previamente escondido -->
+                    <label id="labelColor1" for="outputText">Cor #1</label>
+                    <label id="graylabelColor1" class="gray" for="outputText" style="font-weight: normal;">Copie e cole este código em 'Primeira cor'</label>
+                    <pre id="outputTagColor1" class="inputPresets" onclick="copyTextToClipboard(this.textContent);"></pre>
+                  </div>
+
+                  <!-- Quadro com a cor #2 para tag animada -->
+                  <div id="quadroCor2" style="display: none;"> <!-- Previamente escondido -->
+                    <label id="labelColor2" for="outputText">Cor #2</label>
+                    <label id="graylabelColor2" class="gray" for="outputText" style="font-weight: normal;">Copie e cole este código em 'Segunda cor'</label>
+                    <pre id="outputTagColor2" class="inputPresets" onclick="copyTextToClipboard(this.textContent);"></pre>
                   </div>
 
                   <!-- Mensagens abaixo-->
@@ -97,6 +113,7 @@
                     <option value='1'>Nickname</option>
                     <option value='2'>Tag clã</option>
                     <option value='90'>Tag personalizada</option>
+                    <option value='91'>Tag animada</option>
                   </select>
                 </div>
               </div>
@@ -116,7 +133,7 @@
               </div>
 
               <!-- Input do número de cores -->
-              <div class="row" style="margin-top: 10px;">
+              <div class="row" style="margin-top: 10px;" id="selecaoQuantidadeCores">
                 <label for="numOfColors">Número de Cores</label>
                 <input class="form-control"
                        style="width: 75px;"

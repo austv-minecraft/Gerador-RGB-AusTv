@@ -1,7 +1,9 @@
-// elements for obtaining vals
+// Variáveis globais
 const nickName = document.getElementById('nickname');
 const coloredNick = document.getElementById('coloredNick');
 const savedColors = ['084CFB', 'ADF3FD', getRandomHexColor(), getRandomHexColor(), getRandomHexColor(), getRandomHexColor(), getRandomHexColor(), getRandomHexColor(), getRandomHexColor(), getRandomHexColor()];
+
+// Pré definições
 const presets = {
   1: {
     colors: ["FF0404", "FF540B", "FFF506", "44FF15", "20FFE4", "6D23E4"],
@@ -12,6 +14,7 @@ const presets = {
     totalColors: 2
   }
 }
+
 const formats = {
   0: {
     outputPrefix: '',
@@ -28,13 +31,6 @@ const formats = {
   2: {
     outputPrefix: '/clan mudartag ',
     template: '<#$1$2$3$4$5$6>$f$c',
-    formatChar: '&',
-    maxLength: 256
-  },
-  90: {
-    outputPrefix: '[',
-    outputSufix: ']',
-    template: '&#$1$2$3$4$5$6$f$c',
     formatChar: '&',
     maxLength: 256
   },
@@ -68,6 +64,20 @@ const formats = {
     formatChar: null,
     maxLength: null
   },
+  90: {
+    outputPrefix: '[',
+    outputSufix: ']',
+    template: '&#$1$2$3$4$5$6$f$c',
+    formatChar: '&',
+    maxLength: 256
+  },
+  91: {
+    outputPrefix: '[',
+    outputSufix: ']',
+    template: '&#$1$2$3$4$5$6$f$c',
+    formatChar: '&',
+    maxLength: 256
+  }
 };
 
 function darkMode() {
@@ -83,6 +93,10 @@ function darkMode() {
     document.getElementById('outputText').classList.add("darktextboxes");
     document.getElementById('outputTextTag').classList.replace("gray", "darkgray");
     document.getElementById('outputTextTag').classList.add("darktextboxes");
+    document.getElementById('outputTagColor1').classList.replace("gray", "darkgray");
+    document.getElementById('outputTagColor1').classList.add("darktextboxes");
+    document.getElementById('outputTagColor2').classList.replace("gray", "darkgray");
+    document.getElementById('outputTagColor2').classList.add("darktextboxes");
     document.getElementById('error').classList.replace("errortext", "darkerrortext");
     document.getElementById('numOfColors').classList.add("darktextboxes");
     document.getElementById('nickname').classList.add("darktextboxes");
@@ -101,6 +115,10 @@ function darkMode() {
     document.getElementById('outputText').classList.remove("darktextboxes");
     document.getElementById('outputTextTag').classList.replace("darkgray", "gray");
     document.getElementById('outputTextTag').classList.remove("darktextboxes");
+    document.getElementById('outputTagColor1').classList.replace("darkgray", "gray");
+    document.getElementById('outputTagColor1').classList.remove("darktextboxes");
+    document.getElementById('outputTagColor2').classList.replace("darkgray", "gray");
+    document.getElementById('outputTagColor2').classList.remove("darktextboxes");
     document.getElementById('error').classList.replace("darkerrortext", "errortext");
     document.getElementById('numOfColors').classList.remove("darktextboxes");
     document.getElementById('nickname').classList.remove("darktextboxes");
@@ -110,7 +128,6 @@ function darkMode() {
   }
 }
 
-/* Get a random HEX color */
 function getRandomHexColor() {
      return Math.floor(Math.random()*16777215).toString(16).toUpperCase();
 }
@@ -144,8 +161,11 @@ function showError(show) {
 function hex(c) {
   let s = '0123456789abcdef';
   let i = parseInt(c);
-  if (i == 0 || isNaN(c))
+  
+  if (i == 0 || isNaN(c)) {
     return '00';
+  }
+    
   i = Math.round(Math.min(Math.max(0, i), 255));
   return s.charAt((i - i % 16) / 16) + s.charAt(i % 16);
 }
@@ -231,15 +251,18 @@ class TwoStopGradient {
 /* Toggles the number of gradient colors between 2 and 10 based on user input */
 function toggleColors(colors) {
   let clamped = Math.min(10, Math.max(2, colors));
+  
   if (colors == 1 || colors == '') {
     colors = getColors().length;
   } else if (colors != clamped) {
     $('#numOfColors').val(clamped);
     colors = clamped;
   }
+
   const container = $('#hexColors');
   const hexColors = container.find('.hexColor');
   const number = hexColors.size();
+
   if (number > colors) {
     // Need to remove some colors
     hexColors.each((index, element) => {
@@ -263,11 +286,13 @@ function toggleColors(colors) {
 function getColors() {
   const hexColors = $('#hexColors').find('.hexColor');
   const colors = [];
+
   hexColors.each((index, element) => {
     const value = $(element).val();
     savedColors[index] = value;
     colors[index] = convertToRGB(value);
   });
+
   return colors;
 }
 
@@ -297,6 +322,16 @@ function updateOutputText(event) {
         nickName.value = nickName.value.replace(forbiddenCharacters, '');
       }
 
+      // Se for TAG personalizada animada, permite diferentes tipos de caracteres mas não aqueles que quebram o yml e outras funções
+      if (tipoDeComando === "91") {
+        exibirIdentificador();
+        exibirCoresParaInserir();
+        let forbiddenCharacters = /[\[\]'":´]/g;
+        sufix = "]";
+        letters = "";
+        nickName.value = nickName.value.replace(forbiddenCharacters, '');
+      }
+
       if (!nickName.value.match(letters)) nickName.value = nickName.value.replace(event.data, '');
     }
   }
@@ -318,6 +353,7 @@ function updateOutputText(event) {
   
   for (let i = 0; i < newNick.length; i++) {
     let char = newNick.charAt(i);
+    
     if (char == ' ') {
       output += char;
       charColors.push(null);
@@ -325,17 +361,22 @@ function updateOutputText(event) {
     }
 
     let hex = convertToHex(gradient.next());
-    charColors.push(hex);
     let hexOutput = format.template;
-    for (let n = 1; n <= 6; n++)
+    charColors.push(hex);
+    
+    for (let n = 1; n <= 6; n++) {
       hexOutput = hexOutput.replace(`$${n}`, hex.charAt(n - 1));
+    }
+
     let formatCodes = '';
+
     if (format.formatChar != null) {
       if (bold) formatCodes += format.formatChar + 'l';
       if (italic) formatCodes += format.formatChar + 'o';
       if (underline) formatCodes += format.formatChar + 'n';
       if (strike) formatCodes += format.formatChar + 'm';
     }
+    
     hexOutput = hexOutput.replace('$f', formatCodes);
     hexOutput = hexOutput.replace('$c', char);
     output += hexOutput;
@@ -437,6 +478,15 @@ function ajustarPresetsBaseadoNoTipo(tipoPreset) {
       underlineCheckbox.disabled = true;
       underlineCheckbox.checked = false;
       criacaoTagPersonalizada();
+      break;
+    case "91":
+      boldCheckbox.disabled = true;
+      boldCheckbox.checked = false;
+      italicCheckbox.disabled = true;
+      italicCheckbox.checked = false;
+      underlineCheckbox.disabled = true;
+      underlineCheckbox.checked = false;
+      criacaoTagPersonalizadaAnimada();
       break;
     default:
       break;
@@ -545,11 +595,26 @@ function criacaoTagPersonalizada() {
   updateOutputText();
 }
 
+function criacaoTagPersonalizadaAnimada() {
+  document.getElementById('quadroTextoRgbGerado').style.display = 'none';
+  document.getElementById('selecaoQuantidadeCores').style.display = 'none';
+  document.getElementById('quadroNomeDaTag').style.display = 'block';
+  document.getElementById('quadroCor1').style.display = 'block';
+  document.getElementById('quadroCor2').style.display = 'block';
+  document.getElementById('nickname').value = "MinhaTag";
+  toggleColors(2);
+  updateOutputText();
+}
+
 // Função para ajustar os campos ao padrão, devido a possibilidade de tags personalizadas
 function ajustarCampos() {
   document.getElementById('labelRgbResult').innerText = "Texto RGB";
   document.getElementById('graylabelRgbResult').innerText = "Copie e cole este texto RGB no chat!";
+  document.getElementById('quadroTextoRgbGerado').style.display = 'block';
+  document.getElementById('selecaoQuantidadeCores').style.display = 'block';
   document.getElementById('quadroNomeDaTag').style.display = 'none';
+  document.getElementById('quadroCor1').style.display = 'none';
+  document.getElementById('quadroCor2').style.display = 'none';
   document.getElementById('nickname').value = "Seu texto";
   updateOutputText();
 }
@@ -561,4 +626,14 @@ function exibirIdentificador() {
   tagInserida = tagInserida.replace(/[ \[\]]/g, '');
 
   outputText.innerText = tagInserida;
+}
+
+function exibirCoresParaInserir() {
+  let labelCorUm = document.getElementById('outputTagColor1');
+  let labelCorDois = document.getElementById('outputTagColor2');
+  const primeiraCor = document.getElementById("color-1").value;
+  const segundaCor = document.getElementById("color-2").value;
+
+  labelCorUm.innerText = primeiraCor.replace('#', '');
+  labelCorDois.innerText = segundaCor.replace('#', '');
 }
