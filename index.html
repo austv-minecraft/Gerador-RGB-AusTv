@@ -11,33 +11,43 @@
   </head>
 
   <body id="bg" class="container" style="font-family: Quicksand;">
-  
+    
+    <!-- Template onde ficarão as cores RGB -->
     <div id="hexColorTemplate" style="display:none;">
-      <div class="row bordaSolida">
+      <div class="row coresRgb">
         <label for="color-$NUM">Cor HEX #$NUM</label>
-        <div class="bordaSolida mesmaLinha">
+        <div class="coresRgb mesmaLinha">
           <i class="material-icons iconeSetas" id="setaCima#$NUM" onclick="subirCor($NUM);">keyboard_arrow_up</i>
           <i class="material-icons iconeSetas" id="setaBaixo#$NUM" onclick="descerCor($NUM);">keyboard_arrow_down</i>
         </div>
         
+        <!-- Color picker (paleta de cores) -->
         <input class="form-control col-md-1 hexColor" id="color-$NUM" style="border-radius: 10px;" value="$VAL"
                data-jscolor="{preset:'small dark', position:'right'}" oninput="javascript: updateOutputText(event)"
                onchange="javascript: updateOutputText(event); Cookies.set(`#${$NUM}`, document.getElementById('color-$NUM').value, { expires: 7, path: '' })"/>
       </div>
     </div>
     
+    <!-- Div principal -->
     <div id="content">
       <h1 id="title" style="text-align: center">Criador de Texto RGB da AusTv!</h1>
       <p id="graylabel1" class="gray" style="padding-bottom: 10px; text-align: center">Recomendamos o uso do navegador Google Chrome.</p>
+
       <div class="container-fluid">
         <div class="row">
+
+          <!-- Disposição de cores RGB -->
           <div class="col-md-2" style="padding-left: 0; margin-top: -8px;">
             <div id="hexColors" class="container-fluid">
-              <!-- Will be populated in JavaScript -->
+              <!-- As cores serão inseridas pelo javascript -->
             </div>
           </div>
+
+          <!-- Restante da página, lado direito -->
           <div class="col-md-10" style="padding-right: 0;">
             <div class="container-fluid">
+              
+              <!-- Quadro do código rgb principal -->
               <div class="row">
                 <div id="output">
                   <label id="label4" for="outputText">Texto RGB</label>
@@ -48,9 +58,13 @@
                   <p class="success" id="infoCopiado">Código copiado para o teclado!</p>
                 </div>
               </div>
+
+              <!-- Preview do texto RGB -->
               <div class="row">
                 <div id="coloredNick" class="minecraft"></div>
               </div>
+
+              <!-- Input da inserção do texto -->
               <div class="row">
                 <div class="col-md-3" style="padding-left: 0;">
                   <label for="nickname">Mensagem</label>
@@ -59,6 +73,8 @@
                          onchange="javascript: updateOutputText(event)">
                 </div>
               </div>
+
+              <!-- Input do tipo de comando -->
               <div class="row" style="margin-top: 10px;">
                 <div class="col-md-3" style="padding-left: 0;">
                   <label for="output-format">Tipo de comando</label>
@@ -71,6 +87,8 @@
                   </select>
                 </div>
               </div>
+
+              <!-- Input da pré definição de cores -->
               <div class="row" style="margin-top: 10px;">
                 <div class="col-md-3" style="padding-left: 0;">
                   <label for="color-preset">Predefinição de cores</label>
@@ -83,6 +101,8 @@
                   </select>
                 </div>
               </div>
+
+              <!-- Input do número de cores -->
               <div class="row" style="margin-top: 10px;">
                 <label for="numOfColors">Número de Cores</label>
                 <input class="form-control"
@@ -91,6 +111,8 @@
                        onchange="updateOutputText(event); toggleColors(this.value);"
                        oninput="updateOutputText(event); toggleColors(this.value);"/>
               </div>
+
+              <!-- Caixas de seleção -->
               <div class="row" style="margin-top: 10px;">
                 <div id="dbold">
                   <input type="checkbox" id="bold" onclick="updateOutputText(event);"/>
