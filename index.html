@@ -11,7 +11,7 @@
   </head>
 
   <body id="bg" class="container" style="font-family: Quicksand;">
-    
+
     <!-- Template onde ficarão as cores RGB -->
     <div id="hexColorTemplate" style="display:none;">
       <div class="row coresRgb">
@@ -47,13 +47,25 @@
           <div class="col-md-10" style="padding-right: 0;">
             <div class="container-fluid">
               
-              <!-- Quadro do código rgb principal -->
+              <!-- Quadros -->
               <div class="row">
                 <div id="output">
-                  <label id="label4" for="outputText">Texto RGB</label>
-                  <label id="graylabel2" class="gray" for="outputText" style="font-weight: normal;">Copie e cole este texto RGB no chat!</label>
-                  <pre id="outputText" style="border-radius: 10px; white-space: pre-wrap; height: 70px; margin-right: 15px; font-family: MinecraftRegular; margin-bottom: 5px;"
+
+                  <!-- Quadro do código rgb principal -->
+                  <label id="labelRgbResult" for="outputText">Texto RGB</label>
+                  <label id="graylabelRgbResult" class="gray" for="outputText" style="font-weight: normal;">Copie e cole este texto RGB no chat!</label>
+                  <pre id="outputText"
+                       style="border-radius: 10px; white-space: pre-wrap; height: 70px; margin-right: 15px; font-family: MinecraftRegular; margin-bottom: 5px;"
                        onclick="copyTextToClipboard(this.textContent);"></pre>
+
+                  <!-- Quadro com o nome da tag -->
+                  <div id="quadroNomeDaTag" style="display: none;"> <!-- Previamente escondido -->
+                    <label id="labelTagName" for="outputText">Identificador</label>
+                    <label id="graylabelTagName" class="gray" for="outputText" style="font-weight: normal;">Copie e cole este texto em "Nome da tag"</label>
+                    <pre id="outputTextTag" class="inputPresets" onclick="copyTextToClipboard(this.textContent);"></pre>
+                  </div>
+
+                  <!-- Mensagens abaixo-->
                   <p id="error">O texto possui mais de 256 caracteres e pode não caber no chat do jogo.</p>
                   <p class="success" id="infoCopiado">Código copiado para o teclado!</p>
                 </div>
@@ -84,6 +96,7 @@
                     <option value='0'>Padrão</option>
                     <option value='1'>Nickname</option>
                     <option value='2'>Tag clã</option>
+                    <option value='90'>Tag personalizada</option>
                   </select>
                 </div>
               </div>

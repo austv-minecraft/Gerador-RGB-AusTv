@@ -31,8 +31,9 @@ const formats = {
     formatChar: '&',
     maxLength: 256
   },
-  3: {
-    outputPrefix: '/nick ',
+  90: {
+    outputPrefix: '[',
+    outputSufix: ']',
     template: '&#$1$2$3$4$5$6$f$c',
     formatChar: '&',
     maxLength: 256
@@ -76,13 +77,15 @@ function darkMode() {
     document.getElementById('color-preset').classList.add("dark");
     document.getElementById('numOfColors').classList.add("dark");
     document.getElementById('graylabel1').classList.replace("gray", "darkgray");
-    document.getElementById('graylabel2').classList.replace("gray", "darkgray");
+    document.getElementById('graylabelRgbResult').classList.replace("gray", "darkgray");
+    document.getElementById('graylabelTagName').classList.replace("gray", "darkgray");
     document.getElementById('outputText').classList.replace("gray", "darkgray");
-    document.getElementById('outputText').classList.replace("gray", "darkgray");
+    document.getElementById('outputText').classList.add("darktextboxes");
+    document.getElementById('outputTextTag').classList.replace("gray", "darkgray");
+    document.getElementById('outputTextTag').classList.add("darktextboxes");
     document.getElementById('error').classList.replace("errortext", "darkerrortext");
     document.getElementById('numOfColors').classList.add("darktextboxes");
     document.getElementById('nickname').classList.add("darktextboxes");
-    document.getElementById('outputText').classList.add("darktextboxes");
     Array.from(document.getElementsByClassName("hexColor")).forEach(e => {
       document.getElementById(e.id).classList.add("darktextboxes");
     })
@@ -92,12 +95,15 @@ function darkMode() {
     document.getElementById('color-preset').classList.remove("dark");
     document.getElementById('numOfColors').classList.remove("dark");
     document.getElementById('graylabel1').classList.replace("darkgray", "gray");
-    document.getElementById('graylabel2').classList.replace("darkgray", "gray");
+    document.getElementById('graylabelRgbResult').classList.replace("darkgray", "gray");
+    document.getElementById('graylabelTagName').classList.replace("darkgray", "gray");
     document.getElementById('outputText').classList.replace("darkgray", "gray");
+    document.getElementById('outputText').classList.remove("darktextboxes");
+    document.getElementById('outputTextTag').classList.replace("darkgray", "gray");
+    document.getElementById('outputTextTag').classList.remove("darktextboxes");
     document.getElementById('error').classList.replace("darkerrortext", "errortext");
     document.getElementById('numOfColors').classList.remove("darktextboxes");
     document.getElementById('nickname').classList.remove("darktextboxes");
-    document.getElementById('outputText').classList.remove("darktextboxes");
     Array.from(document.getElementsByClassName("hexColor")).forEach(e => {
       document.getElementById(e.id).classList.remove("darktextboxes");
     })
@@ -269,6 +275,7 @@ function updateOutputText(event) {
   
   let format = formats[document.getElementById('output-format').value];
   let tipoDeComando = document.getElementById('output-format').value;
+  let sufix = ""; // Em casos de sufixo como tags personalizadas
 
   if (format.outputPrefix) {
     nickName.value = nickName.value.replace(/ /g, '');
@@ -279,6 +286,15 @@ function updateOutputText(event) {
       // Se for TAG de clã
       if (tipoDeComando === "2") {
         letters = /^[0-9a-zA-Z]+$/;
+      }
+
+      // Se for TAG personalizada, permite diferentes tipos de caracteres mas não aqueles que quebram o yml
+      if (tipoDeComando === "90") {
+        exibirIdentificador();
+        let forbiddenCharacters = /[\[\]'":´]/g;
+        sufix = "]";
+        letters = "";
+        nickName.value = nickName.value.replace(forbiddenCharacters, '');
       }
 
       if (!nickName.value.match(letters)) nickName.value = nickName.value.replace(event.data, '');
@@ -325,7 +341,7 @@ function updateOutputText(event) {
     output += hexOutput;
   }
 
-  outputText.innerText = output;
+  outputText.innerText = output + sufix;
   showError(format.maxLength != null && format.maxLength < output.length);
   displayColoredName(newNick, charColors);
 }
@@ -392,6 +408,7 @@ darkMode()
 
 function ajustarPresetsBaseadoNoTipo(tipoPreset) {
   limparConfiguracoes();
+  ajustarCampos();
   const boldCheckbox = document.getElementById('bold');
   const italicCheckbox = document.getElementById('italics');
   const underlineCheckbox = document.getElementById('underline');
@@ -411,6 +428,15 @@ function ajustarPresetsBaseadoNoTipo(tipoPreset) {
       underlineCheckbox.disabled = true;
       underlineCheckbox.checked = false;
       updateOutputText();
+      break;
+    case "90":
+      boldCheckbox.disabled = true;
+      boldCheckbox.checked = false;
+      italicCheckbox.disabled = true;
+      italicCheckbox.checked = false;
+      underlineCheckbox.disabled = true;
+      underlineCheckbox.checked = false;
+      criacaoTagPersonalizada();
       break;
     default:
       break;
@@ -511,3 +537,28 @@ function coresRgbExistentes() {
   return totalDeElementos;
 }
 
+function criacaoTagPersonalizada() {
+  document.getElementById('labelRgbResult').innerText = "Resultado da tag";
+  document.getElementById('graylabelRgbResult').innerText = "Copie e cole este texto em 'Sua tag personalizada'";
+  document.getElementById('quadroNomeDaTag').style.display = 'block';
+  document.getElementById('nickname').value = "MinhaTag";
+  updateOutputText();
+}
+
+// Função para ajustar os campos ao padrão, devido a possibilidade de tags personalizadas
+function ajustarCampos() {
+  document.getElementById('labelRgbResult').innerText = "Texto RGB";
+  document.getElementById('graylabelRgbResult').innerText = "Copie e cole este texto RGB no chat!";
+  document.getElementById('quadroNomeDaTag').style.display = 'none';
+  document.getElementById('nickname').value = "Seu texto";
+  updateOutputText();
+}
+
+function exibirIdentificador() {
+  let outputText = document.getElementById('outputTextTag');
+  let tagInserida = document.getElementById('nickname').value;
+
+  tagInserida = tagInserida.replace(/[ \[\]]/g, '');
+
+  outputText.innerText = tagInserida;
+}

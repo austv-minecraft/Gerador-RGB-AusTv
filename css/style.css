@@ -205,3 +205,13 @@ body{
   display: none;
   color:#51fc2f; 
 }
+
+.inputPresets {
+  border-radius: 10px;
+  white-space: pre-wrap;
+  height: 40px;
+  margin-right: 15px;
+  font-family: MinecraftRegular;
+  margin-bottom: 5px;
+  vertical-align: text-bottom;
+}
