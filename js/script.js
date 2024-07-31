@@ -17,18 +17,21 @@ const presets = {
 
 const formats = {
   0: {
+    formatType: '',
     outputPrefix: '',
     template: '&#$1$2$3$4$5$6$f$c',
     formatChar: '&',
     maxLength: 256
   },
   1: {
+    formatType: 'nickname',
     outputPrefix: '/nome ',
     template: '&#$1$2$3$4$5$6$f$c',
     formatChar: '&',
     maxLength: 256
   },
   2: {
+    formatType: 'clantag',
     outputPrefix: '/clan mudartag ',
     template: '<#$1$2$3$4$5$6>$f$c',
     formatChar: '&',
@@ -65,15 +68,15 @@ const formats = {
     maxLength: null
   },
   90: {
-    outputPrefix: '[',
-    outputSufix: ']',
+    formatType: 'tagPersonalizada',
+    outputPrefix: '',
     template: '&#$1$2$3$4$5$6$f$c',
     formatChar: '&',
     maxLength: 256
   },
   91: {
-    outputPrefix: '[',
-    outputSufix: ']',
+    formatType: 'tagAnimada',
+    outputPrefix: '',
     template: '&#$1$2$3$4$5$6$f$c',
     formatChar: '&',
     maxLength: 256
@@ -300,9 +303,9 @@ function updateOutputText(event) {
   
   let format = formats[document.getElementById('output-format').value];
   let tipoDeComando = document.getElementById('output-format').value;
-  let sufix = ""; // Em casos de sufixo como tags personalizadas
 
-  if (format.outputPrefix) {
+  // Entra aqui apenas se o formato selecionado em "Tipo de Comando" tiver algum identificador dentro de "formats"
+  if (format.formatType) {
     nickName.value = nickName.value.replace(/ /g, '');
     
     if (nickName.value) {
@@ -317,9 +320,9 @@ function updateOutputText(event) {
       if (tipoDeComando === "90") {
         exibirIdentificador();
         let forbiddenCharacters = /[\[\]'":´]/g;
-        sufix = "]";
         letters = "";
         nickName.value = nickName.value.replace(forbiddenCharacters, '');
+        nickName.value = "[" + nickName.value + "]";
       }
 
       // Se for TAG personalizada animada, permite diferentes tipos de caracteres mas não aqueles que quebram o yml e outras funções
@@ -327,9 +330,9 @@ function updateOutputText(event) {
         exibirIdentificador();
         exibirCoresParaInserir();
         let forbiddenCharacters = /[\[\]'":´]/g;
-        sufix = "]";
         letters = "";
         nickName.value = nickName.value.replace(forbiddenCharacters, '');
+        nickName.value = "[" + nickName.value + "]";
       }
 
       if (!nickName.value.match(letters)) nickName.value = nickName.value.replace(event.data, '');
@@ -382,7 +385,7 @@ function updateOutputText(event) {
     output += hexOutput;
   }
 
-  outputText.innerText = output + sufix;
+  outputText.innerText = output;
   showError(format.maxLength != null && format.maxLength < output.length);
   displayColoredName(newNick, charColors);
 }

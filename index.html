@@ -31,7 +31,16 @@
     <!-- Div principal -->
     <div id="content">
       <h1 id="title" style="text-align: center">Criador de Texto RGB da AusTv!</h1>
-      <p id="graylabel1" class="gray" style="padding-bottom: 10px; text-align: center">Recomendamos o uso do navegador Google Chrome.</p>
+      <p id="graylabel1" class="gray" style="padding-bottom: 10px; text-align: center">
+        Junte-se ao nosso <a id="discord-link" href="#">Discord</a>.
+      </p>
+      <script>
+        var discordLink = document.getElementById('discord-link');
+        discordLink.addEventListener('click', function(event) {
+          event.preventDefault(); // Previne o comportamento padrão do link
+          window.open('https://discord.com/invite/jdVxeGb', '_blank');
+        });
+      </script>
 
       <div class="container-fluid">
         <div class="row">
@@ -89,7 +98,7 @@
 
               <!-- Preview do texto RGB -->
               <div class="row">
-                <div id="coloredNick" class="minecraft"></div>
+                <div id="coloredNick" class="minecraft animatedText"></div>
               </div>
 
               <!-- Input da inserção do texto -->
