@@ -115,61 +115,6 @@ const formats = {
   }
 };
 
-function darkMode() {
-  if (document.getElementById('darkmode').checked == true) {
-    document.body.classList.add('dark');
-    document.getElementById('crate-num-itens').classList.add("darktextboxes");
-    document.getElementById('crate-custom').classList.add("darktextboxes");
-    document.getElementById('crate-chance').classList.add("darktextboxes");
-    document.getElementById('crate-name').classList.add("darktextboxes");
-    document.getElementById('output-format').classList.add("dark");
-    document.getElementById('crate-item-type').classList.add("dark");
-    document.getElementById('etapa-criacao').classList.add("dark");
-    document.getElementById('color-preset').classList.add("dark");
-    document.getElementById('numOfColors').classList.add("dark");
-    document.getElementById('graylabel1').classList.replace("gray", "darkgray");
-    document.getElementById('graylabelRgbResult').classList.replace("gray", "darkgray");
-    document.getElementById('graylabelTagName').classList.replace("gray", "darkgray");
-    document.getElementById('outputText').classList.replace("gray", "darkgray");
-    document.getElementById('outputText').classList.add("darktextboxes");
-    document.getElementById('outputTextTag').classList.replace("gray", "darkgray");
-    document.getElementById('outputTextTag').classList.add("darktextboxes");
-    document.getElementById('outputTagColor1').classList.replace("gray", "darkgray");
-    document.getElementById('outputTagColor1').classList.add("darktextboxes");
-    document.getElementById('outputTagColor2').classList.replace("gray", "darkgray");
-    document.getElementById('outputTagColor2').classList.add("darktextboxes");
-    document.getElementById('error').classList.replace("errortext", "darkerrortext");
-    document.getElementById('numOfColors').classList.add("darktextboxes");
-    document.getElementById('nickname').classList.add("darktextboxes");
-    Array.from(document.getElementsByClassName("hexColor")).forEach(e => {
-      document.getElementById(e.id).classList.add("darktextboxes");
-    })
-  } else {
-    document.body.classList.remove('dark');
-    document.getElementById('output-format').classList.remove("dark");
-    document.getElementById('etapa-criacao').classList.remove("dark");
-    document.getElementById('color-preset').classList.remove("dark");
-    document.getElementById('numOfColors').classList.remove("dark");
-    document.getElementById('graylabel1').classList.replace("darkgray", "gray");
-    document.getElementById('graylabelRgbResult').classList.replace("darkgray", "gray");
-    document.getElementById('graylabelTagName').classList.replace("darkgray", "gray");
-    document.getElementById('outputText').classList.replace("darkgray", "gray");
-    document.getElementById('outputText').classList.remove("darktextboxes");
-    document.getElementById('outputTextTag').classList.replace("darkgray", "gray");
-    document.getElementById('outputTextTag').classList.remove("darktextboxes");
-    document.getElementById('outputTagColor1').classList.replace("darkgray", "gray");
-    document.getElementById('outputTagColor1').classList.remove("darktextboxes");
-    document.getElementById('outputTagColor2').classList.replace("darkgray", "gray");
-    document.getElementById('outputTagColor2').classList.remove("darktextboxes");
-    document.getElementById('error').classList.replace("darkerrortext", "errortext");
-    document.getElementById('numOfColors').classList.remove("darktextboxes");
-    document.getElementById('nickname').classList.remove("darktextboxes");
-    Array.from(document.getElementsByClassName("hexColor")).forEach(e => {
-      document.getElementById(e.id).classList.remove("darktextboxes");
-    })
-  }
-}
-
 function getRandomHexColor() {
   return Math.floor(Math.random() * 16777215).toString(16).toUpperCase();
 }
@@ -621,8 +566,7 @@ function preset(n) {
 }
 toggleColors(2);
 updateOutputText();
-document.getElementById('darkmode').checked = true
-darkMode()
+
 
 function ajustarPresetsBaseadoNoTipo(tipoPreset) {
   limparConfiguracoes();
@@ -780,25 +724,6 @@ function coresRgbExistentes() {
   }
 
   return totalDeElementos;
-}
-
-function criacaoTagPersonalizada() {
-  document.getElementById('labelRgbResult').innerText = "Resultado da tag";
-  document.getElementById('graylabelRgbResult').innerText = "Copie e cole este texto em 'Sua tag personalizada'";
-  document.getElementById('quadroNomeDaTag').style.display = 'block';
-  document.getElementById('nickname').value = "MinhaTag";
-  updateOutputText();
-}
-
-function criacaoTagPersonalizadaAnimada() {
-  document.getElementById('quadroTextoRgbGerado').style.display = 'none';
-  document.getElementById('selecaoQuantidadeCores').style.display = 'none';
-  document.getElementById('quadroNomeDaTag').style.display = 'block';
-  document.getElementById('quadroCor1').style.display = 'block';
-  document.getElementById('quadroCor2').style.display = 'block';
-  document.getElementById('nickname').value = "MinhaTag";
-  toggleColors(2);
-  updateOutputText();
 }
 
 // Função para ajustar os campos ao padrão, devido a possibilidade de tags personalizadas

@@ -9,10 +9,5 @@ function selecionarTagAnimada() {
   toggleColors(2);
 }
 
-
-document.getElementById('outputTextTag').classList.replace("gray", "darkgray");
-document.getElementById('outputTextTag').classList.add("darktextboxes");
-
-
 let outputText = document.getElementById('outputTextTag');
 outputText.innerText = "mudar aqui";
