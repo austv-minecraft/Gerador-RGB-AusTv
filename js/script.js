@@ -86,9 +86,7 @@ const formats = {
 function darkMode() {
   if (document.getElementById('darkmode').checked == true) {
     document.body.classList.add('dark');
-    document.getElementById('crate-name').classList.add("darktextboxes");
     document.getElementById('output-format').classList.add("dark");
-    document.getElementById('etapa-criacao').classList.add("dark");
     document.getElementById('color-preset').classList.add("dark");
     document.getElementById('numOfColors').classList.add("dark");
     document.getElementById('graylabel1').classList.replace("gray", "darkgray");
