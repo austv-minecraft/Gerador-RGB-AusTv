@@ -360,6 +360,7 @@ function updateOutputText(event) {
   const itemChance = document.getElementById('crate-chance').value || 4;
   const itemNumId = document.getElementById('crate-num-itens').value || 1;
   const itemType = document.getElementById('crate-item-type').value || "espadas";
+  const skinUnicode = document.getElementById('input-unicode').value || "";
   let itemConfig = `    ${itemNumId}:
       DisplayName: '${crateNameMiniMessage}'
       DisplayItem: ${itensDicionario[itemType]}#${itemCustomModelData}
@@ -367,7 +368,7 @@ function updateOutputText(event) {
       Lore:
       - '<white>Skin da coleção:'
       - ''
-      - '<white>ퟁ'
+      - '<white>${skinUnicode}'
       - ''
       - '<white>ਦ <yellow>Assinado com seu nome!'
       - ''
@@ -377,7 +378,7 @@ function updateOutputText(event) {
       Firework: true
       HideItemFlags: true
       Commands:
-      - 'aegive %player% NETHERITE_SWORD 1 custommodeldata:104 name:${transformToFormat10(crateNameValue, formats[10])} lore:&fਦ_&e%essentials_nickname%|&f|&fퟁ|&f'
+      - 'aegive %player% NETHERITE_SWORD 1 custommodeldata:104 name:${transformToFormat10(crateNameValue, formats[10])} lore:&fਦ_&e%essentials_nickname%|&f|&f${skinUnicode}|&f'
       - 'broadcast &f⨏ &7%player% encontrou ${generateRGBOutput(crateNameValue, formats[0], gradient, { bold: false, italic: false, underline: false, strike: false })}&7!'`;
 
   // Atualiza o campo de texto com a configuração final
