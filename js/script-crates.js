@@ -1,9 +1,25 @@
-let crateNameMiniMessage = "", keyNameMiniMessage = "";
+const itensDicionario = {
+  "espadas": "NETHERITE_SWORD",
+  "picaretas": "NETHERITE_PICKAXE",
+  "enxadas": "NETHERITE_HOE",
+  "pás": "NETHERITE_SHOVEL",
+  "machados": "NETHERITE_AXE",
+  "capacetes": "NETHERITE_HELMET",
+  "peitorais": "NETHERITE_CHESTPLATE",
+  "calças": "NETHERITE_LEGGINGS",
+  "botas": "NETHERITE_BOOTS",
+  "arcos": "BOW",
+  "bestas": "CROSSBOW",
+  "tesouras": "SHEARS",
+  "varas de pesca": "FISHING_ROD",
+  "clavas": "MACE"
+}
 
 // Variáveis globais
 const nickName = document.getElementById('nickname');
 const coloredNick = document.getElementById('coloredNick');
 const savedColors = ['084CFB', 'ADF3FD', getRandomHexColor(), getRandomHexColor(), getRandomHexColor(), getRandomHexColor(), getRandomHexColor(), getRandomHexColor(), getRandomHexColor(), getRandomHexColor()];
+let crateNameMiniMessage = "", keyNameMiniMessage = "";
 
 // Pré definições
 const presets = {
@@ -76,6 +92,13 @@ const formats = {
     formatChar: '&',
     maxLength: 256
   },
+  10: {
+    formatType: '',
+    outputPrefix: '',
+    template: '{#$1$2$3$4$5$6}$f$c',
+    formatChar: '&',
+    maxLength: 256
+  },
   90: {
     formatType: 'tagPersonalizada',
     outputPrefix: '',
@@ -95,8 +118,12 @@ const formats = {
 function darkMode() {
   if (document.getElementById('darkmode').checked == true) {
     document.body.classList.add('dark');
+    document.getElementById('crate-num-itens').classList.add("darktextboxes");
+    document.getElementById('crate-custom').classList.add("darktextboxes");
+    document.getElementById('crate-chance').classList.add("darktextboxes");
     document.getElementById('crate-name').classList.add("darktextboxes");
     document.getElementById('output-format').classList.add("dark");
+    document.getElementById('crate-item-type').classList.add("dark");
     document.getElementById('etapa-criacao').classList.add("dark");
     document.getElementById('color-preset').classList.add("dark");
     document.getElementById('numOfColors').classList.add("dark");
@@ -163,9 +190,6 @@ function copyTextToClipboard(text) {
 
   mostrarTextoCopiado();
 }
-
-
-
 
 function showError(show) {
   if (show) {
@@ -339,7 +363,14 @@ function updateOutputText(event) {
   let gradient = new Gradient(getColors(), newNick.length);
   let output = generateRGBOutput(newNick, format, gradient, { bold, italic, underline, strike });
 
-  // Criar a configuração da Crate (YML)
+  // Atualizar exibição de nome colorido
+  let colorsForDisplay = [];
+  for (let i = 0; i < newNick.length; i++) {
+    colorsForDisplay.push(convertToHex(gradient.next()));
+  }
+  displayColoredName(newNick, colorsForDisplay);  // Chamar a função aqui para exibir o nome colorido
+
+  // Configuração para "config"
   let crateConfig = `Crate:
   CrateType: CSGO
   CrateName: '${crateNameMiniMessage}'
@@ -379,9 +410,82 @@ function updateOutputText(event) {
     Message:
     - '${output}'`;
 
+  // Configuração para "itens"
+  const itemCustomModelData = document.getElementById('crate-custom').value || 100;
+  const itemChance = document.getElementById('crate-chance').value || 4;
+  const itemNumId = document.getElementById('crate-num-itens').value || 1;
+  const itemType = document.getElementById('crate-item-type').value || "espadas";
+  let itemConfig = `    ${itemNumId}:
+      DisplayName: '${crateNameMiniMessage}'
+      DisplayItem: ${itensDicionario[itemType]}#${itemCustomModelData}
+      DisplayAmount: 1
+      Lore:
+      - '<white>Skin da coleção:'
+      - ''
+      - '<white>ퟁ'
+      - ''
+      - '<white>ਦ <yellow>Assinado com seu nome!'
+      - ''
+      - '<white><bold>* <light_purple>Skin para ${itemType}!'
+      MaxRange: 100
+      Chance: ${itemChance}
+      Firework: true
+      HideItemFlags: true
+      Commands:
+      - 'aegive %player% NETHERITE_SWORD 1 custommodeldata:104 name:${transformToFormat10(crateNameValue, formats[10])} lore:&fਦ_&e%essentials_nickname%|&f|&fퟁ|&f'
+      - 'broadcast &f⨏ &7%player% encontrou ${generateRGBOutput(crateNameValue, formats[0], gradient, { bold: false, italic: false, underline: false, strike: false })}&7!'`;
+
   // Atualiza o campo de texto com a configuração final
-  document.getElementById('outputText').innerText = crateConfig;
+  if (document.getElementById('etapa-criacao').value == "config") {
+    document.getElementById('outputText').innerText = crateConfig;
+  } else if (document.getElementById('etapa-criacao').value == "itens") {
+    document.getElementById('outputText').innerText = itemConfig;
+  } else {
+    document.getElementById('outputText').innerText = "Selecione uma opção.";
+  }
 }
+
+
+// Função para transformar o valor em formato 10, usando &l em vez de <bold>
+function transformToFormat10(value, format) {
+  let output = format.outputPrefix;
+  let gradient = new Gradient(getColors(), value.length);
+
+  // Captura as opções de formatação
+  const bold = document.getElementById('bold').checked;
+  const italic = document.getElementById('italics').checked;
+  const underline = document.getElementById('underline').checked;
+  const strike = document.getElementById('strike').checked;
+
+  // Formatação com &l, &o, &n, &m
+  let formatCodes = '';
+  if (bold) formatCodes += "&l";       // Negrito
+  if (italic) formatCodes += "&o";     // Itálico
+  if (underline) formatCodes += "&n";  // Sublinhado
+  if (strike) formatCodes += "&m";     // Tachado
+
+  for (let i = 0; i < value.length; i++) {
+    let char = value.charAt(i);
+    if (char === ' ') {
+      output += char;
+      continue;
+    }
+
+    let hex = convertToHex(gradient.next());
+    let hexOutput = format.template;
+
+    for (let n = 1; n <= 6; n++) {
+      hexOutput = hexOutput.replace(`$${n}`, hex.charAt(n - 1));
+    }
+
+    hexOutput = hexOutput.replace('$f', formatCodes); // Adicionar formatação com &
+    hexOutput = hexOutput.replace('$c', char);
+    output += hexOutput;
+  }
+
+  return output;
+}
+
 
 // Função para transformar o valor em MiniMessage com base no formato
 function transformToMiniMessage(value, format) {
@@ -420,12 +524,6 @@ function transformToMiniMessage(value, format) {
     output += hexOutput;
   }
 
-  // Fechar os formatores MiniMessage
-  if (bold) output += "</bold>";
-  if (italic) output += "</italic>";
-  if (underline) output += "</underlined>";
-  if (strike) output += "</strikethrough>";
-
   return output;
 }
 
@@ -462,6 +560,7 @@ function generateRGBOutput(nick, format, gradient, styles) {
 
   return output;
 }
+
 
 
 
@@ -711,7 +810,7 @@ function ajustarCampos() {
   document.getElementById('quadroNomeDaTag').style.display = 'none';
   document.getElementById('quadroCor1').style.display = 'none';
   document.getElementById('quadroCor2').style.display = 'none';
-  document.getElementById('nickname').value = "Seu texto";
+  // document.getElementById('nickname').value = "Seu texto";
   updateOutputText();
 }
 

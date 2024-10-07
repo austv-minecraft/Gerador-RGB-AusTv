@@ -101,13 +101,13 @@
 
                   <!-- Mensagens abaixo-->
                   <p id="error"></p>
-                  <p class="success" id="infoCopiado">Tudo selecionado! Agora use Ctrol + C</p>
+                  <p class="success" id="infoCopiado">Tudo selecionado! Agora use Ctrl + C</p>
                 </div>
               </div>
 
               <!-- Preview do texto RGB -->
               <div class="row">
-                <div id="coloredNick" class="minecraft animatedText"></div>
+                <div id="coloredNick" class="minecraft animatedText" style="display: none;"></div>
               </div>
 
               <!-- Select do tipo da etapa Criação/Itens -->
@@ -123,37 +123,81 @@
                 </div>
               </div>
 
+
               <!-- Input da inserção do texto (pode ser qualquer) -->
               <div class="row" style="margin-top: 10px; display: none;" id="text-input-div">
                 <div class="col-md-3" style="padding-left: 0;">
-                  <label for="nickname" id="test-test">Nome da caixa</label>
-                  <input class="form-control" id="nickname" type="text" maxlength="100" placeholder="Seu texto"
-                    value="Caixa Nova" oninput="javascript: updateOutputText(event);"
-                    onchange="javascript: updateOutputText(event)">
+                  <label for="nickname" id="input-title1">Nome da caixa</label>
+                  <input class="form-control" id="nickname" type="text" maxlength="100" value="Caixa Nova"
+                    oninput="javascript: updateOutputText(event);" onchange="javascript: updateOutputText(event)">
                 </div>
               </div>
+
 
               <!-- Nome da chave (se selecionado) -->
               <div class="row" style="margin-top: 10px; display: none;" id="nome-chave-div">
                 <div class="col-md-3" style="padding-left: 0;">
-                  <label for="crate-name">Nome da chave</label>
-                  <input class="form-control" id="crate-name" type="text" maxlength="100" placeholder="Seu texto"
-                    value="Chave Nova" oninput="javascript: updateOutputText(event);"
-                    onchange="javascript: updateOutputText(event)">
+                  <label for="crate-name" id="input-title2">Nome da chave</label>
+                  <input class="form-control" id="crate-name" type="text" maxlength="100" value="Chave Nova"
+                    oninput="javascript: updateOutputText(event);" onchange="javascript: updateOutputText(event)">
                 </div>
               </div>
 
-              <!-- Input do tipo de comando -->
+              <!-- Valores para criação de itens -->
+              <div class="row" style="margin-top: 10px;">
+                <div id="item-infos-div" style="display: none;">
+                  <div class="col-md-3" style="padding-left: 0;">
+                    <label for="crate-num-itens">Num item</label>
+                    <input class="form-control" id="crate-num-itens" type="number" maxlength="100" value="1"
+                      oninput="javascript: updateOutputText(event);" onchange="javascript: updateOutputText(event)">
+                  </div>
+                  <div class="col-md-3" style="padding-left: 0;">
+                    <label for="crate-custom">Custom Model Data</label>
+                    <input class="form-control" id="crate-custom" type="number" maxlength="100" value="105"
+                      oninput="javascript: updateOutputText(event);" onchange="javascript: updateOutputText(event)">
+                  </div>
+                  <div class="col-md-3" style="padding-left: 0;">
+                    <label for="crate-chance">Chance</label>
+                    <input class="form-control" id="crate-chance" type="number" maxlength="100" value="4"
+                      oninput="javascript: updateOutputText(event);" onchange="javascript: updateOutputText(event)">
+                  </div>
+                  <!-- Input do tipo de comando -->
+                  <div class="row" style="margin-top: 10px; display: none;" id="tipo-item-div">
+                    <div class="col-md-3" style="padding-left: 0;">
+                      <label for="crate-item-type">Tipo de item</label>
+                      <select id="crate-item-type" class="form-control" onchange="updateOutputText(event);">
+                        <option value='arcos'>Arco</option>
+                        <option value='bestas'>Besta</option>
+                        <option value='botas'>Botas</option>
+                        <option value='calças'>Calça</option>
+                        <option value='capacetes'>Capacete</option>
+                        <option value='clavas'>Clava</option>
+                        <option value='enxadas'>Enxada</option>
+                        <option value='espadas'>Espada</option>
+                        <option value='machados'>Machado</option>
+                        <option value='peitorais'>Peitoral</option>
+                        <option value='picaretas'>Picareta</option>
+                        <option value='pás'>Pá</option>
+                        <option value='tesouras'>Tesoura</option>
+                        <option value='varas de pesca'>Vara de pesca</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+              <!-- RESOLVER DPS ESSA BOMBA -->
               <div class="row" style="margin-top: 10px; display: none;" id="tipo-item-div">
                 <div class="col-md-3" style="padding-left: 0;">
                   <label for="output-format">Tipo de item</label>
                   <select id="output-format" class="form-control"
                     onchange="updateOutputText(event); ajustarPresetsBaseadoNoTipo(value);">
-                    <option value='0'>Padrão</option>
-                    <option value='1'>Nickname</option>
-                    <option value='2'>Tag clã</option>
-                    <option value='90'>Tag personalizada</option>
-                    <option value='91'>Tag animada</option>
+                    <option value='0'>xx</option>
+                    <option value='1'>xx</option>
                   </select>
                 </div>
               </div>
