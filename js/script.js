@@ -86,7 +86,9 @@ const formats = {
 function darkMode() {
   if (document.getElementById('darkmode').checked == true) {
     document.body.classList.add('dark');
+    document.getElementById('crate-name').classList.add("darktextboxes");
     document.getElementById('output-format').classList.add("dark");
+    document.getElementById('etapa-criacao').classList.add("dark");
     document.getElementById('color-preset').classList.add("dark");
     document.getElementById('numOfColors').classList.add("dark");
     document.getElementById('graylabel1').classList.replace("gray", "darkgray");
@@ -109,6 +111,7 @@ function darkMode() {
   } else {
     document.body.classList.remove('dark');
     document.getElementById('output-format').classList.remove("dark");
+    document.getElementById('etapa-criacao').classList.remove("dark");
     document.getElementById('color-preset').classList.remove("dark");
     document.getElementById('numOfColors').classList.remove("dark");
     document.getElementById('graylabel1').classList.replace("darkgray", "gray");
@@ -132,7 +135,7 @@ function darkMode() {
 }
 
 function getRandomHexColor() {
-     return Math.floor(Math.random()*16777215).toString(16).toUpperCase();
+  return Math.floor(Math.random() * 16777215).toString(16).toUpperCase();
 }
 
 function copyTextToClipboard(text) {
@@ -164,11 +167,11 @@ function showError(show) {
 function hex(c) {
   let s = '0123456789abcdef';
   let i = parseInt(c);
-  
+
   if (i == 0 || isNaN(c)) {
     return '00';
   }
-    
+
   i = Math.round(Math.min(Math.max(0, i), 255));
   return s.charAt((i - i % 16) / 16) + s.charAt(i % 16);
 }
@@ -254,7 +257,7 @@ class TwoStopGradient {
 /* Toggles the number of gradient colors between 2 and 10 based on user input */
 function toggleColors(colors) {
   let clamped = Math.min(10, Math.max(2, colors));
-  
+
   if (colors == 1 || colors == '') {
     colors = getColors().length;
   } else if (colors != clamped) {
@@ -300,14 +303,14 @@ function getColors() {
 }
 
 function updateOutputText(event) {
-  
+
   let format = formats[document.getElementById('output-format').value];
   let tipoDeComando = document.getElementById('output-format').value;
 
   // Entra aqui apenas se o formato selecionado em "Tipo de Comando" tiver algum identificador dentro de "formats"
   if (format.formatType) {
     nickName.value = nickName.value.replace(/ /g, '');
-    
+
     if (nickName.value) {
       let letters = /^[0-9a-zA-Z_*]+$/;
 
@@ -353,10 +356,10 @@ function updateOutputText(event) {
   let gradient = new Gradient(getColors(), newNick.replace(/ /g, '').length);
   let charColors = [];
   let output = format.outputPrefix;
-  
+
   for (let i = 0; i < newNick.length; i++) {
     let char = newNick.charAt(i);
-    
+
     if (char == ' ') {
       output += char;
       charColors.push(null);
@@ -366,7 +369,7 @@ function updateOutputText(event) {
     let hex = convertToHex(gradient.next());
     let hexOutput = format.template;
     charColors.push(hex);
-    
+
     for (let n = 1; n <= 6; n++) {
       hexOutput = hexOutput.replace(`$${n}`, hex.charAt(n - 1));
     }
@@ -379,7 +382,7 @@ function updateOutputText(event) {
       if (underline) formatCodes += format.formatChar + 'n';
       if (strike) formatCodes += format.formatChar + 'm';
     }
-    
+
     hexOutput = hexOutput.replace('$f', formatCodes);
     hexOutput = hexOutput.replace('$c', char);
     output += hexOutput;
@@ -434,13 +437,13 @@ function preset(n) {
   const numDeCores = presets[n].totalColors;
   const container = $('#hexColors');
   container.empty();
-    // Need to add some colors
-    let template = $('#hexColorTemplate').html();
-    for (let i = 0 + 1; i <= colors.length; i++) {
-      let html = template.replace(/\$NUM/g, i).replace(/\$VAL/g, colors[i - 1]);
-      container.append(html);
-    }
-    jscolor.install(); // Refresh all jscolor elements
+  // Need to add some colors
+  let template = $('#hexColorTemplate').html();
+  for (let i = 0 + 1; i <= colors.length; i++) {
+    let html = template.replace(/\$NUM/g, i).replace(/\$VAL/g, colors[i - 1]);
+    container.append(html);
+  }
+  jscolor.install(); // Refresh all jscolor elements
 
   // Atualizar total de cores que tem na paleta
   document.getElementById('numOfColors').value = numDeCores;
@@ -491,6 +494,24 @@ function ajustarPresetsBaseadoNoTipo(tipoPreset) {
       underlineCheckbox.checked = false;
       criacaoTagPersonalizadaAnimada();
       break;
+    case "config":
+      boldCheckbox.disabled = true;
+      boldCheckbox.checked = true;
+      italicCheckbox.disabled = true;
+      italicCheckbox.checked = false;
+      underlineCheckbox.disabled = true;
+      underlineCheckbox.checked = false;
+      updateOutputText();
+      document.getElementById('labelRgbResult').innerText = "Código resultante";
+      document.getElementById('graylabelRgbResult').innerText = "Copie e cole o resultado no arquivo YML.";
+    case "itens":
+      boldCheckbox.disabled = true;
+      boldCheckbox.checked = true;
+      underlineCheckbox.disabled = true;
+      underlineCheckbox.checked = false;
+      updateOutputText();
+      document.getElementById('labelRgbResult').innerText = "Código resultante";
+      document.getElementById('graylabelRgbResult').innerText = "Copie e cole o resultado no arquivo YML.";
     default:
       break;
   }
@@ -513,8 +534,8 @@ function limparConfiguracoes() {
 function mostrarTextoCopiado() {
   var elemento = document.getElementById('infoCopiado');
   elemento.style.display = 'block';
-  
-  setTimeout(function() {
+
+  setTimeout(function () {
     elemento.style.display = 'none';
   }, 3000);
 

@@ -1,3 +1,25 @@
+.coresRgb {
+  margin-top: 8px;
+}
+
+.bordaSolida {
+  border: 2px solid #ff3399;
+}
+
+.mesmaLinha {
+  float: inline-end;
+  margin: -2px;
+}
+
+.iconeSetas {
+  cursor: pointer;
+}
+
+.iconeSetasBloqueado {
+  /* Não usada */
+  cursor: not-allowed;
+}
+
 .color {
   width: 100%;
 }
@@ -181,6 +203,31 @@ footer {
 body {
   margin: auto;
 }
+
+.success {
+  display: none;
+  color: #51fc2f;
+}
+
+.inputPresets {
+  border-radius: 10px;
+  white-space: pre-wrap;
+  height: 40px;
+  margin-right: 15px;
+  font-family: MinecraftRegular;
+  margin-bottom: 5px;
+  vertical-align: text-bottom;
+}
+
+.animatedText {
+  background: linear-gradient(to right, #6666ff, #0099ff, #00ff00, #ff3399, #6666ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: rainbow_animation 6s ease-in-out infinite;
+  background-size: 400% 100%;
+}
+
 
 #nav {
   background-color: #1b1e21;
