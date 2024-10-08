@@ -32,8 +32,8 @@
 
         <!-- Color picker (paleta de cores) -->
         <input class="form-control col-md-1 hexColor" id="color-$NUM" style="border-radius: 10px;" value="$VAL"
-          data-jscolor="{preset:'small dark', position:'right'}" oninput="javascript: updateOutputText(event)"
-          onchange="javascript: updateOutputText(event); Cookies.set(`#${$NUM}`, document.getElementById('color-$NUM').value, { expires: 7, path: '' })" />
+          data-jscolor="{preset:'small dark', position:'right'}" oninput="javascript: returnFiles(this.value)"
+          onchange="javascript: returnFiles(this.value); Cookies.set(`#${$NUM}`, document.getElementById('color-$NUM').value, { expires: 7, path: '' })" />
       </div>
     </div>
 
@@ -115,7 +115,7 @@
                 <div class="col-md-3" style="padding-left: 0;">
                   <label for="etapa-criacao">Etapa</label>
                   <select id="etapa-criacao" class="form-control"
-                    onchange="updateOutputText(event); showCaixasOptions(value); ajustarPresetsBaseadoNoTipo(value);">
+                    onchange="returnFiles(this.value); showCaixasOptions(value); ajustarPresetsBaseadoNoTipo(value);">
                     <option value='0'>Selecionar</option>
                     <option value='config'>Configuração</option>
                     <option value='itens'>Itens</option>
@@ -129,22 +129,22 @@
                 <div class="col-md-3" style="padding-left: 0;">
                   <label for="nickname" id="input-title1">Nome da caixa</label>
                   <input class="form-control" id="nickname" type="text" maxlength="100" value="Caixa Nova"
-                    oninput="javascript: updateOutputText(event);" onchange="javascript: updateOutputText(event)">
+                    oninput="javascript: returnFiles(this.value);" onchange="javascript: returnFiles(this.value)">
                 </div>
-                <div class="col-md-3" style="padding-left: 0;">
-                  <label for="input-unicode">Unicode</label>
-                  <input class="form-control" id="input-unicode" type="text" maxlength="100"
-                    oninput="javascript: updateOutputText(event);" onchange="javascript: updateOutputText(event)">
-                </div>
-              </div>
-
-
-              <!-- Nome da chave (se selecionado) -->
-              <div class="row" style="margin-top: 10px; display: none;" id="nome-chave-div">
-                <div class="col-md-3" style="padding-left: 0;">
+                <div class="col-md-3" style="padding-left: 0;" id="nome-chave-div">
                   <label for="crate-name" id="input-title2">Nome da chave</label>
                   <input class="form-control" id="crate-name" type="text" maxlength="100" value="Chave Nova"
-                    oninput="javascript: updateOutputText(event);" onchange="javascript: updateOutputText(event)">
+                    oninput="javascript: returnFiles(this.value);" onchange="javascript: returnFiles(this.value)">
+                </div>
+                <div class="col-md-3" style="padding-left: 0;" id="unicode-skin-div">
+                  <label for="input-unicode">Unicode</label>
+                  <input class="form-control" id="input-unicode" type="text" maxlength="100"
+                    oninput="javascript: returnFiles(this.value);" onchange="javascript: returnFiles(this.value)">
+                </div>
+                <div class="col-md-3" style="padding-left: 0;" id="custom-key-div">
+                  <label for="input-key-custom">Custom Data da chave</label>
+                  <input class="form-control" id="input-key-custom" type="text" maxlength="100"
+                    oninput="javascript: returnFiles(this.value);" onchange="javascript: returnFiles(this.value)">
                 </div>
               </div>
 
@@ -154,23 +154,23 @@
                   <div class="col-md-3" style="padding-left: 0;">
                     <label for="crate-num-itens">Num item</label>
                     <input class="form-control" id="crate-num-itens" type="number" maxlength="100" value="1"
-                      oninput="javascript: updateOutputText(event);" onchange="javascript: updateOutputText(event)">
+                      oninput="javascript: returnFiles(this.value);" onchange="javascript: returnFiles(this.value)">
                   </div>
                   <div class="col-md-3" style="padding-left: 0;">
                     <label for="crate-custom">Custom Model Data</label>
                     <input class="form-control" id="crate-custom" type="number" maxlength="100" value="105"
-                      oninput="javascript: updateOutputText(event);" onchange="javascript: updateOutputText(event)">
+                      oninput="javascript: returnFiles(this.value);" onchange="javascript: returnFiles(this.value)">
                   </div>
                   <div class="col-md-3" style="padding-left: 0;">
                     <label for="crate-chance">Chance</label>
                     <input class="form-control" id="crate-chance" type="number" maxlength="100" value="4"
-                      oninput="javascript: updateOutputText(event);" onchange="javascript: updateOutputText(event)">
+                      oninput="javascript: returnFiles(this.value);" onchange="javascript: returnFiles(this.value)">
                   </div>
                   <!-- Input do tipo de comando -->
                   <div class="row" style="margin-top: 10px; display: none;" id="tipo-item-div">
                     <div class="col-md-3" style="padding-left: 0;">
                       <label for="crate-item-type">Tipo de item</label>
-                      <select id="crate-item-type" class="form-control" onchange="updateOutputText(event);">
+                      <select id="crate-item-type" class="form-control" onchange="returnFiles(this.value);">
                         <option value='arcos'>Arco</option>
                         <option value='bestas'>Besta</option>
                         <option value='botas'>Botas</option>
@@ -200,7 +200,7 @@
                 <div class="col-md-3" style="padding-left: 0;">
                   <label for="output-format">Tipo de item</label>
                   <select id="output-format" class="form-control"
-                    onchange="updateOutputText(event); ajustarPresetsBaseadoNoTipo(value);">
+                    onchange="returnFiles(this.value); ajustarPresetsBaseadoNoTipo(value);">
                     <option value='0'>xx</option>
                     <option value='1'>xx</option>
                   </select>
@@ -212,7 +212,7 @@
                 <div class="col-md-3" style="padding-left: 0;">
                   <label for="color-preset">Predefinição de cores</label>
                   <select id="color-preset" class="form-control"
-                    onchange="preset(this.value); updateOutputText(event); ">
+                    onchange="preset(this.value); returnFiles(this.value); ">
                     <option value='0'>Nenhum</option>
                     <option value='1'>Arco-íris</option>
                     <option value='2'>Vice City</option>
@@ -224,26 +224,26 @@
               <div class="row" style="margin-top: 10px;" id="selecaoQuantidadeCores">
                 <label for="numOfColors">Número de Cores</label>
                 <input class="form-control" style="width: 75px;" value="2" id="numOfColors" type="number" min="2"
-                  max="10" onchange="updateOutputText(event); toggleColors(this.value);"
-                  oninput="updateOutputText(event); toggleColors(this.value);" />
+                  max="10" onchange="returnFiles(this.value); toggleColors(this.value);"
+                  oninput="returnFiles(this.value); toggleColors(this.value);" />
               </div>
 
               <!-- Caixas de seleção -->
               <div class="row" style="margin-top: 10px;">
                 <div id="dbold">
-                  <input type="checkbox" id="bold" onclick="updateOutputText(event);" />
+                  <input type="checkbox" id="bold" onclick="returnFiles(this.value);" />
                   <label for="bold">Negrito</label>
                 </div>
                 <div id="ditalics">
-                  <input type="checkbox" id="italics" onclick="updateOutputText(event);" />
+                  <input type="checkbox" id="italics" onclick="returnFiles(this.value);" />
                   <label for="italics">Itálico</label>
                 </div>
                 <div id="dunderline">
-                  <input type="checkbox" id="underline" onclick="updateOutputText(event);" />
+                  <input type="checkbox" id="underline" onclick="returnFiles(this.value);" />
                   <label for="underline">Sublinhado</label>
                 </div>
                 <div id="dstrike" hidden>
-                  <input type="checkbox" id="strike" onclick="updateOutputText(event);" />
+                  <input type="checkbox" id="strike" onclick="returnFiles(this.value);" />
                   <label for="strike">Tachado</label>
                 </div>
                 <div id="appearance">
@@ -257,7 +257,6 @@
       </div>
     </div>
   </div>
-  <script src="/js/crates.js"></script>
   <script src="/js/jscolor.js"></script>
   <script src="/js/script-crates.js"></script>
   <script src="/js/ui-views.js"></script>

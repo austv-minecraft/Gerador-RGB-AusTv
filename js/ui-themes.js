@@ -10,7 +10,7 @@ function darkMode() {
         'output-format', 'color-preset', 'numOfColors', 'graylabel1', 'graylabelRgbResult',
         'graylabelTagName', 'outputText', 'outputTextTag', 'outputTagColor1', 'outputTagColor2',
         'error', 'nickname', 'crate-num-itens', 'crate-custom', 'crate-chance', 'crate-name', 'crate-item-type',
-        'etapa-criacao', 'ouputTextTag', 'input-unicode'
+        'etapa-criacao', 'ouputTextTag', 'input-unicode', 'input-key-custom'
     ];
 
     // Modo escuro

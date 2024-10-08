@@ -286,100 +286,136 @@ function getColors() {
   return colors;
 }
 
-function updateOutputText(event) {
+function updateOutputText(nameToRgb) {
   let format = formats[document.getElementById('output-format').value];
-  let tipoDeComando = document.getElementById('output-format').value;
+  let newNick = nameToRgb || 'Digite sua tag!'; // Usa a string passada como argumento ou um texto padrão.
 
-  // Obter valores dos inputs
-  const crateNameValue = document.getElementById('nickname').value || 'Caixa Nova'; // Valor da caixa
-  const keyNameValue = document.getElementById('crate-name').value || 'Chave Nova'; // Valor da chave
-
-  // Transforma o crateName e keyName em MiniMessage utilizando o formato 9 (MiniMessage)
-  let crateNameMiniMessage = transformToMiniMessage(crateNameValue, formats[9]);
-  let keyNameMiniMessage = transformToMiniMessage(keyNameValue, formats[9]);
-
-  // Gerar o texto RGB para o output (gradiente)
-  let newNick = crateNameValue.replace(/ /g, ''); // Remover espaços
   const bold = document.getElementById('bold').checked;
   const italic = document.getElementById('italics').checked;
   const underline = document.getElementById('underline').checked;
   const strike = document.getElementById('strike').checked;
 
-  let gradient = new Gradient(getColors(), newNick.length);
-  let output = generateRGBOutput(newNick, format, gradient, { bold, italic, underline, strike });
+  let gradient = new Gradient(getColors(), newNick.replace(/ /g, '').length);
+  let output = format.outputPrefix; // Prefixo do formato escolhido
 
-  // Atualizar exibição de nome colorido
-  let colorsForDisplay = [];
   for (let i = 0; i < newNick.length; i++) {
+    let char = newNick.charAt(i);
+
+    if (char === ' ') {
+      output += char;
+      continue;
+    }
+
+    let hex = convertToHex(gradient.next());
+    let hexOutput = format.template;
+
+    // Substitui os placeholders $1-$6 pelo valor de cada dígito do código hex
+    for (let n = 1; n <= 6; n++) {
+      hexOutput = hexOutput.replace(`$${n}`, hex.charAt(n - 1));
+    }
+
+    // Adiciona estilos (negrito, itálico, sublinhado, tachado)
+    let formatCodes = '';
+    if (format.formatChar != null) {
+      if (bold) formatCodes += format.formatChar + 'l';
+      if (italic) formatCodes += format.formatChar + 'o';
+      if (underline) formatCodes += format.formatChar + 'n';
+      if (strike) formatCodes += format.formatChar + 'm';
+    }
+
+    hexOutput = hexOutput.replace('$f', formatCodes); // Adiciona códigos de formatação
+    hexOutput = hexOutput.replace('$c', char); // Adiciona o caractere correspondente
+    output += hexOutput;
+  }
+
+  return output; // Retorna a string convertida
+}
+
+
+function returnFiles() {
+  let inputCrateName = document.getElementById('nickname').value || "Caixa Nova";
+  let inputKeyName = document.getElementById('crate-name').value || "Chave Nova";
+  let inputItemName = document.getElementById('nickname').value || "Nome do Item";
+  const inputItemCustomModelData = document.getElementById('crate-custom').value || 100;
+  const inputKeyCustomModelData = document.getElementById('input-key-custom').value || 100;
+  const inputItemChance = document.getElementById('crate-chance').value || 4;
+  const inputItemNumId = document.getElementById('crate-num-itens').value || 1;
+  const inputItemType = document.getElementById('crate-item-type').value || "espadas";
+  const inputSkinUnicode = document.getElementById('input-unicode').value || "";
+
+  //
+  let gradient = new Gradient(getColors(), inputItemName.replace(/ /g, '').length);
+  let colorsForDisplay = [];
+  for (let i = 0; i < inputItemName.length; i++) {
     colorsForDisplay.push(convertToHex(gradient.next()));
   }
-  displayColoredName(newNick, colorsForDisplay);  // Chamar a função aqui para exibir o nome colorido
+  displayColoredName(inputItemName, colorsForDisplay);
+  //
 
-  // Configuração para "config"
+  // Converter os nomes necessários para RGB
+  let RgbCrateName = updateOutputText(inputCrateName);
+  let RgbKeyName = updateOutputText(inputKeyName);
+  let RgbItemName = updateOutputText(inputItemName);
+
+  // Build crates files
   let crateConfig = `Crate:
-  CrateType: CSGO
-  CrateName: '${crateNameMiniMessage}'
-  Preview-Name: '<white>'
-
-  StartingKeys: 0
-  InGUI: false
-  Slot: 21
-  OpeningBroadCast: false
-  BroadCast: ''
-
-  Item: CHEST
-  Glowing: false
-  Name: '${crateNameMiniMessage}'
-  Lore: []
-
-  Preview:
-    Toggle: true
-    ChestLines: 4
-    Glass:
-      Toggle: true
-      Item: JIGSAW
-
-  PhysicalKey:
-    Name: '${keyNameMiniMessage}'
-    Lore:
-    - '<gray>Você pode adquirir mais'
-    - '<gray>chaves em nossa <light_purple>/ausloja'
-    - '<white> '
-    - '<gray>Use essa chave em <green>/spawn'
-    Item: PAPER#100033
+    CrateType: CSGO
+    CrateName: '${convertToMiniMessage(RgbCrateName)}'
+    Preview-Name: '<white>'
+  
+    StartingKeys: 0
+    InGUI: false
+    Slot: 21
+    OpeningBroadCast: false
+    BroadCast: ''
+  
+    Item: CHEST
     Glowing: false
-
-  Hologram:
-    Toggle: true
-    Height: 1.3
-    Message:
-    - '${output}'`;
-
-  // Configuração para "itens"
-  const itemCustomModelData = document.getElementById('crate-custom').value || 100;
-  const itemChance = document.getElementById('crate-chance').value || 4;
-  const itemNumId = document.getElementById('crate-num-itens').value || 1;
-  const itemType = document.getElementById('crate-item-type').value || "espadas";
-  const skinUnicode = document.getElementById('input-unicode').value || "";
-  let itemConfig = `    ${itemNumId}:
-      DisplayName: '${crateNameMiniMessage}'
-      DisplayItem: ${itensDicionario[itemType]}#${itemCustomModelData}
-      DisplayAmount: 1
+    Name: '${convertToMiniMessage(RgbCrateName)}'
+    Lore: []
+  
+    Preview:
+      Toggle: true
+      ChestLines: 4
+      Glass:
+        Toggle: true
+        Item: JIGSAW
+  
+    PhysicalKey:
+      Name: '${convertToMiniMessage(RgbKeyName)}'
       Lore:
-      - '<white>Skin da coleção:'
-      - ''
-      - '<white>${skinUnicode}'
-      - ''
-      - '<white>ਦ <yellow>Assinado com seu nome!'
-      - ''
-      - '<white><bold>* <light_purple>Skin para ${itemType}!'
-      MaxRange: 100
-      Chance: ${itemChance}
-      Firework: true
-      HideItemFlags: true
-      Commands:
-      - 'aegive %player% NETHERITE_SWORD 1 custommodeldata:104 name:${transformToFormat10(crateNameValue, formats[10])} lore:&fਦ_&e%essentials_nickname%|&f|&f${skinUnicode}|&f'
-      - 'broadcast &f⨏ &7%player% encontrou ${generateRGBOutput(crateNameValue, formats[0], gradient, { bold: false, italic: false, underline: false, strike: false })}&7!'`;
+      - '<gray>Você pode adquirir mais'
+      - '<gray>chaves em nossa <light_purple>/ausloja'
+      - '<white> '
+      - '<gray>Use essa chave em <green>/spawn'
+      Item: PAPER#${inputKeyCustomModelData}
+      Glowing: false
+  
+    Hologram:
+      Toggle: true
+      Height: 1.3
+      Message:
+      - '${RgbCrateName}'`;
+
+  let itemConfig = `    ${inputItemNumId}:
+        DisplayName: '${convertToMiniMessage(RgbItemName)}'
+        DisplayItem: ${itensDicionario[inputItemType]}#${inputItemCustomModelData}
+        DisplayAmount: 1
+        Lore:
+        - '<white>Skin da coleção:'
+        - ''
+        - '<white>${inputSkinUnicode}'
+        - ''
+        - '<white>ਦ <yellow>Assinado com seu nome!'
+        - ''
+        - '<white><bold>* <light_purple>Skin para ${inputItemType}!'
+        MaxRange: 100
+        Chance: ${inputItemChance}
+        Firework: true
+        HideItemFlags: true
+        Commands:
+        - 'aegive %player% NETHERITE_SWORD 1 custommodeldata:104 name:${convertToBracketedRGB(RgbItemName)} lore:&fਦ_&e%essentials_nickname%|&f|&f${inputSkinUnicode}|&f'
+        - 'broadcast &f⨏ &7%player% encontrou ${RgbItemName}&7!'`;
 
   // Atualiza o campo de texto com a configuração final
   if (document.getElementById('etapa-criacao').value == "config") {
@@ -391,123 +427,38 @@ function updateOutputText(event) {
   }
 }
 
+function convertToBracketedRGB(output) {
+  // Regex para encontrar as cores RGB no formato &#xxxxxx
+  const rgbRegex = /&#([0-9a-fA-F]{6})/g;
 
-// Função para transformar o valor em formato 10, usando &l em vez de <bold>
-function transformToFormat10(value, format) {
-  let output = format.outputPrefix;
-  let gradient = new Gradient(getColors(), value.length);
+  // Substitui as cores RGB pelo formato {#xxxxxx}
+  let convertedOutput = output.replace(rgbRegex, (match, p1) => {
+    return `{#${p1}}`;
+  });
 
-  // Captura as opções de formatação
-  const bold = document.getElementById('bold').checked;
-  const italic = document.getElementById('italics').checked;
-  const underline = document.getElementById('underline').checked;
-  const strike = document.getElementById('strike').checked;
+  // Substitui &lt pelo formato < (caso haja essa sequência)
+  convertedOutput = convertedOutput.replace(/&lt/g, '<');
 
-  // Formatação com &l, &o, &n, &m
-  let formatCodes = '';
-  if (bold) formatCodes += "&l";       // Negrito
-  if (italic) formatCodes += "&o";     // Itálico
-  if (underline) formatCodes += "&n";  // Sublinhado
-  if (strike) formatCodes += "&m";     // Tachado
-
-  for (let i = 0; i < value.length; i++) {
-    let char = value.charAt(i);
-    if (char === ' ') {
-      output += char;
-      continue;
-    }
-
-    let hex = convertToHex(gradient.next());
-    let hexOutput = format.template;
-
-    for (let n = 1; n <= 6; n++) {
-      hexOutput = hexOutput.replace(`$${n}`, hex.charAt(n - 1));
-    }
-
-    hexOutput = hexOutput.replace('$f', formatCodes); // Adicionar formatação com &
-    hexOutput = hexOutput.replace('$c', char);
-    output += hexOutput;
-  }
-
-  return output;
+  return convertedOutput;
 }
 
+function convertToMiniMessage(output) {
+  // Regex para encontrar as cores RGB no formato &#xxxxxx
+  const rgbRegex = /&#([0-9a-fA-F]{6})/g;
 
-// Função para transformar o valor em MiniMessage com base no formato
-function transformToMiniMessage(value, format) {
-  let output = format.outputPrefix;
-  let gradient = new Gradient(getColors(), value.length);
-  
-  // Captura as opções de formatação
-  const bold = document.getElementById('bold').checked;
-  const italic = document.getElementById('italics').checked;
-  const underline = document.getElementById('underline').checked;
-  const strike = document.getElementById('strike').checked;
+  // Substitui as cores RGB pelo formato MiniMessage <#xxxxxx>
+  let miniMessage = output.replace(rgbRegex, (match, p1) => {
+    return `<#${p1}>`;
+  });
 
-  // Formatação MiniMessage
-  let formatCodes = '';
-  if (bold) formatCodes += "<bold>";
-  if (italic) formatCodes += "<italic>";
-  if (underline) formatCodes += "<underlined>";
-  if (strike) formatCodes += "<strikethrough>";
+  // Substitui &l pelo formato MiniMessage <bold>
+  miniMessage = miniMessage.replace(/&l/g, '<bold>');
 
-  for (let i = 0; i < value.length; i++) {
-    let char = value.charAt(i);
-    if (char === ' ') {
-      output += char;
-      continue;
-    }
+  // Substitui &lt pelo formato < (escapando o &lt que é usado em HTML)
+  miniMessage = miniMessage.replace(/&lt/g, '<');
 
-    let hex = convertToHex(gradient.next());
-    let hexOutput = format.template;
-
-    for (let n = 1; n <= 6; n++) {
-      hexOutput = hexOutput.replace(`$${n}`, hex.charAt(n - 1));
-    }
-
-    hexOutput = hexOutput.replace('$f', formatCodes); // Adicionar formatação
-    hexOutput = hexOutput.replace('$c', char);
-    output += hexOutput;
-  }
-
-  return output;
+  return miniMessage;
 }
-
-// Função para gerar o output no formato RGB com gradiente
-function generateRGBOutput(nick, format, gradient, styles) {
-  let output = format.outputPrefix;
-  for (let i = 0; i < nick.length; i++) {
-    let char = nick.charAt(i);
-
-    if (char === ' ') {
-      output += char;
-      continue;
-    }
-
-    let hex = convertToHex(gradient.next());
-    let hexOutput = format.template;
-
-    for (let n = 1; n <= 6; n++) {
-      hexOutput = hexOutput.replace(`$${n}`, hex.charAt(n - 1));
-    }
-
-    let formatCodes = '';
-    if (format.formatChar != null) {
-      if (styles.bold) formatCodes += format.formatChar + 'l';
-      if (styles.italic) formatCodes += format.formatChar + 'o';
-      if (styles.underline) formatCodes += format.formatChar + 'n';
-      if (styles.strike) formatCodes += format.formatChar + 'm';
-    }
-
-    hexOutput = hexOutput.replace('$f', formatCodes);
-    hexOutput = hexOutput.replace('$c', char);
-    output += hexOutput;
-  }
-
-  return output;
-}
-
-
 
 
 /**
@@ -571,7 +522,6 @@ updateOutputText();
 
 function ajustarPresetsBaseadoNoTipo(tipoPreset) {
   limparConfiguracoes();
-  ajustarCampos();
   const boldCheckbox = document.getElementById('bold');
   const italicCheckbox = document.getElementById('italics');
   const underlineCheckbox = document.getElementById('underline');
@@ -584,13 +534,13 @@ function ajustarPresetsBaseadoNoTipo(tipoPreset) {
       italicCheckbox.checked = false;
       underlineCheckbox.disabled = true;
       underlineCheckbox.checked = false;
-      updateOutputText();
+      returnFiles();
       break;
     case "2": // Tag de clã, selecionar BOLD
       boldCheckbox.checked = true;
       underlineCheckbox.disabled = true;
       underlineCheckbox.checked = false;
-      updateOutputText();
+      returnFiles();
       break;
     case "90":
       boldCheckbox.disabled = true;
@@ -617,7 +567,7 @@ function ajustarPresetsBaseadoNoTipo(tipoPreset) {
       italicCheckbox.checked = false;
       underlineCheckbox.disabled = true;
       underlineCheckbox.checked = false;
-      updateOutputText();
+      returnFiles();
       document.getElementById('labelRgbResult').innerText = "Código resultante";
       document.getElementById('graylabelRgbResult').innerText = "Copie e cole o resultado no arquivo YML.";
     case "itens":
@@ -625,7 +575,7 @@ function ajustarPresetsBaseadoNoTipo(tipoPreset) {
       boldCheckbox.checked = true;
       underlineCheckbox.disabled = true;
       underlineCheckbox.checked = false;
-      updateOutputText();
+      returnFiles();
       document.getElementById('labelRgbResult').innerText = "Código resultante";
       document.getElementById('graylabelRgbResult').innerText = "Copie e cole o resultado no arquivo YML.";
     default:
@@ -644,7 +594,7 @@ function limparConfiguracoes() {
   italicCheckbox.checked = false;
   underlineCheckbox.disabled = false;
   underlineCheckbox.checked = false;
-  updateOutputText();
+  returnFiles();
 }
 
 function mostrarTextoCopiado() {
@@ -652,11 +602,11 @@ function mostrarTextoCopiado() {
   elemento.style.display = 'block';
 
   setTimeout(function () {
-    elemento.style.display = 'none';
+      elemento.style.display = 'none';
   }, 3000);
 
   window.scrollTo({
-    top: 0
+      top: 0
   });
 }
 
@@ -666,9 +616,9 @@ function descerCor(n) {
 
   // Se é o último elemento, troca com o de cima
   if (n === totalCoresRgb) {
-    corInputAbaixo = document.getElementById("color-1");
+      corInputAbaixo = document.getElementById("color-1");
   } else {
-    corInputAbaixo = document.getElementById("color-" + (parseInt(n) + 1));
+      corInputAbaixo = document.getElementById("color-" + (parseInt(n) + 1));
   }
 
   // Resgatar os dois elementos que serão trocados
@@ -684,7 +634,7 @@ function descerCor(n) {
   corInputAtual.jscolor.fromString(corLabelAbaixo);
   corInputAbaixo.jscolor.fromString(corLabel);
 
-  updateOutputText();
+  returnFiles();
 }
 
 function subirCor(n) {
@@ -692,10 +642,10 @@ function subirCor(n) {
 
   // Se é o primeiro elemento, vai trocar com o último
   if (n === 1) {
-    const totalCoresRgb = coresRgbExistentes();
-    corInputAcima = document.getElementById("color-" + totalCoresRgb);
+      const totalCoresRgb = coresRgbExistentes();
+      corInputAcima = document.getElementById("color-" + totalCoresRgb);
   } else {
-    corInputAcima = document.getElementById("color-" + (parseInt(n) - 1));
+      corInputAcima = document.getElementById("color-" + (parseInt(n) - 1));
   }
 
   const corInputAtual = document.getElementById("color-" + n);
@@ -710,51 +660,19 @@ function subirCor(n) {
   corInputAtual.jscolor.fromString(corLabelAcima);
   corInputAcima.jscolor.fromString(corLabel);
 
-  updateOutputText();
+  returnFiles();
 }
 
 function coresRgbExistentes() {
   var elementoChecado, totalDeElementos;
 
   for (var i = 0; i < 20; i++) {
-    elementoChecado = document.getElementById("color-" + i);
+      elementoChecado = document.getElementById("color-" + i);
 
-    if (elementoChecado) {
-      totalDeElementos = i;
-    }
+      if (elementoChecado) {
+          totalDeElementos = i;
+      }
   }
 
   return totalDeElementos;
-}
-
-// Função para ajustar os campos ao padrão, devido a possibilidade de tags personalizadas
-function ajustarCampos() {
-  document.getElementById('labelRgbResult').innerText = "Texto RGB";
-  document.getElementById('graylabelRgbResult').innerText = "Copie e cole este texto RGB no chat!";
-  document.getElementById('quadroTextoRgbGerado').style.display = 'block';
-  document.getElementById('selecaoQuantidadeCores').style.display = 'block';
-  document.getElementById('quadroNomeDaTag').style.display = 'none';
-  document.getElementById('quadroCor1').style.display = 'none';
-  document.getElementById('quadroCor2').style.display = 'none';
-  // document.getElementById('nickname').value = "Seu texto";
-  updateOutputText();
-}
-
-function exibirIdentificador() {
-  let outputText = document.getElementById('outputTextTag');
-  let tagInserida = document.getElementById('nickname').value;
-
-  tagInserida = tagInserida.replace(/[ \[\]]/g, '');
-
-  outputText.innerText = tagInserida;
-}
-
-function exibirCoresParaInserir() {
-  let labelCorUm = document.getElementById('outputTagColor1');
-  let labelCorDois = document.getElementById('outputTagColor2');
-  const primeiraCor = document.getElementById("color-1").value;
-  const segundaCor = document.getElementById("color-2").value;
-
-  labelCorUm.innerText = primeiraCor.replace('#', '');
-  labelCorDois.innerText = segundaCor.replace('#', '');
 }
