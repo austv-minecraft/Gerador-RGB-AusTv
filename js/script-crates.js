@@ -1,3 +1,5 @@
+document.getElementById('outputText').innerText = "Selecione uma opção.";
+
 const itensDicionario = {
   "espadas": "NETHERITE_SWORD",
   "picaretas": "NETHERITE_PICKAXE",
@@ -343,14 +345,14 @@ function returnFiles() {
   const inputItemType = document.getElementById('crate-item-type').value || "espadas";
   const inputSkinUnicode = document.getElementById('input-unicode').value || "";
 
-  //
+  // AQUI
   let gradient = new Gradient(getColors(), inputItemName.replace(/ /g, '').length);
   let colorsForDisplay = [];
   for (let i = 0; i < inputItemName.length; i++) {
     colorsForDisplay.push(convertToHex(gradient.next()));
   }
   displayColoredName(inputItemName, colorsForDisplay);
-  //
+  // AQUI
 
   // Converter os nomes necessários para RGB
   let RgbCrateName = updateOutputText(inputCrateName);
