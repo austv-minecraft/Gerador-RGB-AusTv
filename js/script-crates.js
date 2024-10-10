@@ -393,6 +393,23 @@ function returnFiles() {
     Item: PAPER#${inputKeyCustomModelData}
     Glowing: false
 
+  sound:
+    cycle-sound:
+      toggle: true
+      value: 'ui.button.click'
+      volume: 0.7
+      pitch: 1.0
+    click-sound:
+      toggle: true
+      value: 'ui.button.click'
+      volume: 1.0
+      pitch: 1.0
+    stop-sound:
+      toggle: true
+      value: 'entity.player.levelup'
+      volume: 1.0
+      pitch: 1.0
+
   Hologram:
     Toggle: true
     Height: 1.3
@@ -418,7 +435,7 @@ function returnFiles() {
       Firework: true
       HideItemFlags: true
       Commands:
-      - 'aegive %player% ${(itensDicionario[inputItemType]).toLowerCase()} 1 custommodeldata:104 name:${(convertToBracketedRGB(RgbItemName)).replace(/ /g, '_')} lore:&fਦ_&e%essentials_nickname%|&f|&f${inputSkinUnicode}|&f'
+      - 'aegive %player% ${(itensDicionario[inputItemType]).toLowerCase()} 1 custommodeldata:${inputItemCustomModelData} name:${(convertToBracketedRGB(RgbItemName)).replace(/ /g, '_')} lore:&fਦ_&e%essentials_nickname%|&f|&f${inputSkinUnicode}|&f'
       - 'broadcast &f⨏ &7%player% encontrou ${RgbItemName}&7!'`;
 
   // Atualiza o campo de texto com a configuração final
