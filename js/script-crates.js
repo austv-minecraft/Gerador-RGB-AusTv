@@ -397,7 +397,7 @@ function returnFiles() {
     Toggle: true
     Height: 1.3
     Message:
-    - '${RgbCrateName}'
+    - '${(RgbCrateName).replace(/&#/g, '#')}'
     
   Prizes:`;
 
