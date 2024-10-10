@@ -361,63 +361,65 @@ function returnFiles() {
 
   // Build crates files
   let crateConfig = `Crate:
-    CrateType: CSGO
-    CrateName: '${convertToMiniMessage(RgbCrateName)}'
-    Preview-Name: '<white>'
-  
-    StartingKeys: 0
-    InGUI: false
-    Slot: 21
-    OpeningBroadCast: false
-    BroadCast: ''
-  
-    Item: CHEST
+  CrateType: CSGO
+  CrateName: '${convertToMiniMessage(RgbCrateName)}'
+  Preview-Name: '<white>'
+
+  StartingKeys: 0
+  InGUI: false
+  Slot: 21
+  OpeningBroadCast: false
+  BroadCast: ''
+
+  Item: CHEST
+  Glowing: false
+  Name: '${convertToMiniMessage(RgbCrateName)}'
+  Lore: []
+
+  Preview:
+    Toggle: true
+    ChestLines: 4
+    Glass:
+      Toggle: true
+      Item: JIGSAW
+
+  PhysicalKey:
+    Name: '${convertToMiniMessage(RgbKeyName)}'
+    Lore:
+    - '<gray>Você pode adquirir mais'
+    - '<gray>chaves em nossa <light_purple>/ausloja'
+    - '<white> '
+    - '<gray>Use essa chave em <green>/spawn'
+    Item: PAPER#${inputKeyCustomModelData}
     Glowing: false
-    Name: '${convertToMiniMessage(RgbCrateName)}'
-    Lore: []
-  
-    Preview:
-      Toggle: true
-      ChestLines: 4
-      Glass:
-        Toggle: true
-        Item: JIGSAW
-  
-    PhysicalKey:
-      Name: '${convertToMiniMessage(RgbKeyName)}'
-      Lore:
-      - '<gray>Você pode adquirir mais'
-      - '<gray>chaves em nossa <light_purple>/ausloja'
-      - '<white> '
-      - '<gray>Use essa chave em <green>/spawn'
-      Item: PAPER#${inputKeyCustomModelData}
-      Glowing: false
-  
-    Hologram:
-      Toggle: true
-      Height: 1.3
-      Message:
-      - '${RgbCrateName}'`;
+
+  Hologram:
+    Toggle: true
+    Height: 1.3
+    Message:
+    - '${RgbCrateName}'
+    
+  Prizes:`;
 
   let itemConfig = `    ${inputItemNumId}:
-        DisplayName: '${convertToMiniMessage(RgbItemName)}'
-        DisplayItem: ${itensDicionario[inputItemType]}#${inputItemCustomModelData}
-        DisplayAmount: 1
-        Lore:
-        - '<white>Skin da coleção:'
-        - ''
-        - '<white>${inputSkinUnicode}'
-        - ''
-        - '<white>ਦ <yellow>Assinado com seu nome!'
-        - ''
-        - '<white><bold>* <light_purple>Skin para ${inputItemType}!'
-        MaxRange: 100
-        Chance: ${inputItemChance}
-        Firework: true
-        HideItemFlags: true
-        Commands:
-        - 'aegive %player% ${(itensDicionario[inputItemType]).toLowerCase()} 1 custommodeldata:104 name:${(convertToBracketedRGB(RgbItemName)).replace(/ /g, '_')} lore:&fਦ_&e%essentials_nickname%|&f|&f${inputSkinUnicode}|&f'
-        - 'broadcast &f⨏ &7%player% encontrou ${RgbItemName}&7!'`;
+      DisplayName: '${convertToMiniMessage(RgbItemName)}'
+      DisplayItem: ${itensDicionario[inputItemType]}#${inputItemCustomModelData}
+      DisplayAmount: 1
+      Lore:
+      - '<white>Skin da coleção:'
+      - ''
+      - '<white>${inputSkinUnicode}'
+      - ''
+      - '<white>ਦ <yellow>Assinado com seu nome!'
+      - ''
+      - '<white><bold>* <light_purple>Skin para ${inputItemType}!'
+      MaxRange: 100
+      Chance: ${inputItemChance}
+      Firework: true
+      HideItemFlags: true
+      Commands:
+      - 'aegive %player% ${(itensDicionario[inputItemType]).toLowerCase()} 1 custommodeldata:104 name:${(convertToBracketedRGB(RgbItemName)).replace(/ /g, '_')} lore:&fਦ_&e%essentials_nickname%|&f|&f${inputSkinUnicode}|&f'
+      - 'broadcast &f⨏ &7%player% encontrou ${RgbItemName}&7!'`;
 
   // Atualiza o campo de texto com a configuração final
   if (document.getElementById('etapa-criacao').value == "config") {
