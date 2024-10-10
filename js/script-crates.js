@@ -416,7 +416,7 @@ function returnFiles() {
         Firework: true
         HideItemFlags: true
         Commands:
-        - 'aegive %player% NETHERITE_SWORD 1 custommodeldata:104 name:${convertToBracketedRGB(RgbItemName)} lore:&fਦ_&e%essentials_nickname%|&f|&f${inputSkinUnicode}|&f'
+        - 'aegive %player% ${(itensDicionario[inputItemType]).toLowerCase()} 1 custommodeldata:104 name:${convertToBracketedRGB(RgbItemName)} lore:&fਦ_&e%essentials_nickname%|&f|&f${inputSkinUnicode}|&f'
         - 'broadcast &f⨏ &7%player% encontrou ${RgbItemName}&7!'`;
 
   // Atualiza o campo de texto com a configuração final
