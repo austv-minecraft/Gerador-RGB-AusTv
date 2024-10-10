@@ -440,9 +440,6 @@ function convertToBracketedRGB(output) {
     return `{#${p1}}`;
   });
 
-  // Substitui &lt pelo formato < (caso haja essa sequência)
-  convertedOutput = convertedOutput.replace(/&lt/g, '<');
-
   return convertedOutput;
 }
 
