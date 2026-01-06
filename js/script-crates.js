@@ -430,8 +430,7 @@ function returnFiles() {
       - '<white>ਦ <yellow>Assinado com seu nome!'
       - ''
       - '<white><bold>* <light_purple>Skin para ${inputItemType}!'
-      MaxRange: 100
-      Chance: ${inputItemChance}
+      Weight: ${inputItemChance}
       Firework: true
       HideItemFlags: true
       Commands:
