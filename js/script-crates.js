@@ -344,6 +344,7 @@ function returnFiles() {
   const inputItemNumId = document.getElementById('crate-num-itens').value || 1;
   const inputItemType = document.getElementById('crate-item-type').value || "espadas";
   const inputSkinUnicode = document.getElementById('input-unicode').value || "";
+  const inputRgbCrate = document.getElementById('crate-rgbcrate').value || "RGB Caixa";
 
   // AQUI
   let gradient = new Gradient(getColors(), inputItemName.replace(/ /g, '').length);
@@ -435,7 +436,7 @@ function returnFiles() {
       HideItemFlags: true
       Commands:
       - 'aegive %player% ${(itensDicionario[inputItemType]).toLowerCase()} 1 custommodeldata:${inputItemCustomModelData} name:${(convertToBracketedRGB(RgbItemName)).replace(/ /g, '_')} lore:&fਦ_&e%essentials_nickname%|&f|&f${inputSkinUnicode}|&f'
-      - 'broadcast &f⨏ &7%player% encontrou ${RgbItemName}&7! na caixa $${RgbCrateName}&7!'`;
+      - 'broadcast &f⨏ &7%player% encontrou ${RgbItemName}&7! na ${inputRgbCrate}&7!'`;
 
   // Atualiza o campo de texto com a configuração final
   if (document.getElementById('etapa-criacao').value == "config") {
