@@ -435,7 +435,7 @@ function returnFiles() {
       HideItemFlags: true
       Commands:
       - 'aegive %player% ${(itensDicionario[inputItemType]).toLowerCase()} 1 custommodeldata:${inputItemCustomModelData} name:${(convertToBracketedRGB(RgbItemName)).replace(/ /g, '_')} lore:&fਦ_&e%essentials_nickname%|&f|&f${inputSkinUnicode}|&f'
-      - 'broadcast &f⨏ &7%player% encontrou ${RgbItemName}&7!'`;
+      - 'broadcast &f⨏ &7%player% encontrou ${RgbItemName}&7! na caixa $${RgbCrateName}&7!'`;
 
   // Atualiza o campo de texto com a configuração final
   if (document.getElementById('etapa-criacao').value == "config") {
@@ -619,11 +619,11 @@ function mostrarTextoCopiado() {
   elemento.style.display = 'block';
 
   setTimeout(function () {
-      elemento.style.display = 'none';
+    elemento.style.display = 'none';
   }, 3000);
 
   window.scrollTo({
-      top: 0
+    top: 0
   });
 }
 
@@ -633,9 +633,9 @@ function descerCor(n) {
 
   // Se é o último elemento, troca com o de cima
   if (n === totalCoresRgb) {
-      corInputAbaixo = document.getElementById("color-1");
+    corInputAbaixo = document.getElementById("color-1");
   } else {
-      corInputAbaixo = document.getElementById("color-" + (parseInt(n) + 1));
+    corInputAbaixo = document.getElementById("color-" + (parseInt(n) + 1));
   }
 
   // Resgatar os dois elementos que serão trocados
@@ -659,10 +659,10 @@ function subirCor(n) {
 
   // Se é o primeiro elemento, vai trocar com o último
   if (n === 1) {
-      const totalCoresRgb = coresRgbExistentes();
-      corInputAcima = document.getElementById("color-" + totalCoresRgb);
+    const totalCoresRgb = coresRgbExistentes();
+    corInputAcima = document.getElementById("color-" + totalCoresRgb);
   } else {
-      corInputAcima = document.getElementById("color-" + (parseInt(n) - 1));
+    corInputAcima = document.getElementById("color-" + (parseInt(n) - 1));
   }
 
   const corInputAtual = document.getElementById("color-" + n);
@@ -684,11 +684,11 @@ function coresRgbExistentes() {
   var elementoChecado, totalDeElementos;
 
   for (var i = 0; i < 20; i++) {
-      elementoChecado = document.getElementById("color-" + i);
+    elementoChecado = document.getElementById("color-" + i);
 
-      if (elementoChecado) {
-          totalDeElementos = i;
-      }
+    if (elementoChecado) {
+      totalDeElementos = i;
+    }
   }
 
   return totalDeElementos;
