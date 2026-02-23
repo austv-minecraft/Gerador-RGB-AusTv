@@ -437,7 +437,8 @@ function returnFiles() {
       Firework: true
       HideItemFlags: true
       Commands:
-      - 'aegive %player% ${(itensDicionario[inputItemType]).toLowerCase()} 1 custommodeldata:${inputItemCustomModelData} name:${(convertToBracketedRGB(RgbItemName)).replace(/ /g, '_')} lore:&fਦ_&e%essentials_nickname%|&f|&f${inputSkinUnicode}|&f'
+      - '/mycmd-variables add ${inputItemType}_${inputItemCustomModelData} 1
+      - 'aegive %player% ${(itensDicionario[inputItemType]).toLowerCase()} 1 custommodeldata:${inputItemCustomModelData} name:${(convertToBracketedRGB(RgbItemName)).replace(/ /g, '_')} lore:&fਦ_&e%essentials_nickname%|&f|&f${inputSkinUnicode}|&f|_&eSkin_n°%mycommand_variables_${inputItemType}_${inputItemCustomModelData}%|&f'
       - 'broadcast &f⨏ &7%player% encontrou ${RgbItemName}&7! &r&7na ${inputRgbCrate}&7!'`;
 
   // Atualiza o campo de texto com a configuração final
