@@ -14,7 +14,9 @@ const itensDicionario = {
   "bestas": "CROSSBOW",
   "tesouras": "SHEARS",
   "varas de pesca": "FISHING_ROD",
-  "clavas": "MACE"
+  "clavas": "MACE",
+  "elytra": "ELYTRA",
+  "escudo": "SHIELD"
 }
 
 // Variáveis globais
@@ -364,13 +366,8 @@ function returnFiles() {
   let crateConfig = `Crate:
   CrateType: CSGO
   CrateName: '${convertToMiniMessage(RgbCrateName)}'
-  Preview-Name: '<white>'
-
-  StartingKeys: 0
   InGUI: false
-  Slot: 21
   OpeningBroadCast: false
-  BroadCast: ''
 
   Item: CHEST
   Glowing: false
@@ -378,11 +375,15 @@ function returnFiles() {
   Lore: []
 
   Preview:
+    Name: "<white>"
     Toggle: true
     ChestLines: 4
     Glass:
       Toggle: true
-      Item: JIGSAW
+      Name: " "
+      Item: "jigsaw"
+  Animation:
+    Name: "<white>"
 
   PhysicalKey:
     Name: '${convertToMiniMessage(RgbKeyName)}'
@@ -397,23 +398,23 @@ function returnFiles() {
   sound:
     cycle-sound:
       toggle: true
-      value: 'ui.button.click'
-      volume: 0.7
+      value: "block.note_block.xylophone"
+      volume: 1.0
       pitch: 1.0
     click-sound:
       toggle: true
-      value: 'ui.button.click'
+      value: "ui.button.click"
       volume: 1.0
       pitch: 1.0
     stop-sound:
       toggle: true
-      value: 'entity.player.levelup'
+      value: "entity.player.levelup"
       volume: 1.0
       pitch: 1.0
 
   Hologram:
     Toggle: true
-    Height: 1.3
+    Height: 1.5
     Message:
     - '${(RgbCrateName).replace(/&#/g, '#')}'
     
@@ -437,9 +438,9 @@ function returnFiles() {
       Firework: true
       HideItemFlags: true
       Commands:
-      - '/mycmd-variables add ${inputItemType}_${inputItemCustomModelData} 1
+      - '/mycmd-variables add ${inputItemType}_${inputItemCustomModelData} 1'
       - 'aegive %player% ${(itensDicionario[inputItemType]).toLowerCase()} 1 custommodeldata:${inputItemCustomModelData} name:${(convertToBracketedRGB(RgbItemName)).replace(/ /g, '_')} lore:&fਦ_&e%essentials_nickname%|&f|&f${inputSkinUnicode}|&f|_&eSkin_n°%mycommand_variables_${inputItemType}_${inputItemCustomModelData}%|&f'
-      - 'broadcast &f⨏ &7%player% encontrou ${RgbItemName}&7! &r&7na ${inputRgbCrate}&7!'`;
+      - 'broadcast &f⨏ &7%player% encontrou ${RgbItemName} &r&7na ${inputRgbCrate}&7!'`;
 
   // Atualiza o campo de texto com a configuração final
   if (document.getElementById('etapa-criacao').value == "config") {
